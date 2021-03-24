@@ -1,9 +1,10 @@
-pc_classes = {
-'barbarian':{
+### ability_by_method comes from players guides on rpgbot.net
+
+barbarian = {
     'hit_die':'d12',
     'primary_ability': 'str',
     'saving_throw_prof':['str', 'con'],
-    'arm_&_wep_prof':['light armor', 'medium armor', 'shields', 'simple weapons', 'martial weapons'],
+    'arm_weap_prof':['light armor', 'medium armor', 'shields', 'simple weapons', 'martial weapons'],
     'ability_by_method':{
         'pb':{
             'str': 15, 
@@ -18,13 +19,13 @@ pc_classes = {
             'con': 14, 
             'int':  8, 
             'wis': 10, 
-            'cha':12}}}, 
-'bard':{
+            'cha':12}}}
+bard ={
     'hit_die':'d8',
     'primary_ability': 'cha',
     'saving_throw_prof':['dex', 'cha'],
-    'arm_&_wep_prof':['light armor', 'simple weapons', 'hand crossbows', 'long swords', 'rapiers', 'short swords'],
-    'ability_x_method':{
+    'arm_weap_prof':['light armor', 'simple weapons', 'hand crossbows', 'long swords', 'rapiers', 'short swords'],
+    'ability_by_method':{
         'pb':{
             'str':  8, 
             'dex': 15,
@@ -38,13 +39,13 @@ pc_classes = {
             'con': 13, 
             'int': 12, 
             'wis': 10, 
-            'cha': 15}}},
-'cleric':{
+            'cha': 15}}}
+cleric = {
     'hit_die':'d8',
     'primary_ability': 'wis',
     'saving_throw_prof':['wis', 'cha'],
-    #'arm_&_wep_prof':['light armor', 'medium armor', 'shields', 'simple weapons', 'martial weapons'],
-    'ability_x_method':{
+    'arm_weap_prof':['light armor', 'medium armor', 'shields', 'simple weapons'],
+    'ability_by_method':{
         'pb':{
             'light armor':{
                 'str':  8, 
@@ -88,13 +89,15 @@ pc_classes = {
                 'con': 14,
                 'int': 12, 
                 'wis': 15,
-                'cha': 10}}}},                     
-'druid':{
+                'cha': 10}}}}                    
+druid ={
     'hit_die':'d8',
     'primary_ability': 'wis',
     'saving_throw_prof':['int', 'wis'],
-    #'arm_&_wep_prof':['light armor', 'medium armor', 'shields', 'simple weapons', 'martial weapons'],
-    'ability_x_method':{
+    'arm_weap_prof':['light armor(non-metal)', 'medium armor(non-metal)', 'shields(non-metal)', 
+                     'clubs','daggers', 'darts', 'javelins', 'maces', 'quarterstaffs', 'scimitars', 
+                    'sicles', 'slings', 'spears'],
+    'ability_by_method':{
         'pb':{
             'str':  8, 
             'dex': 14,
@@ -108,13 +111,13 @@ pc_classes = {
             'con': 14, 
             'int': 12, 
             'wis': 15, 
-            'cha':  8}}},
-'fighter':{
+            'cha':  8}}}
+fighter ={
     'hit_die':'d10',
     'primary_ability': ['str','dex'],
     'saving_throw_prof':['str', 'con'],
-    #'arm_&_wep_prof':['light armor', 'medium armor', 'shields', 'simple weapons', 'martial weapons'],
-    'ability_x_method':{
+    'arm_weap_prof':['all'],
+    'ability_by_method':{
         'pb':{
             'Strength_based':{
                 'str': 15,
@@ -158,13 +161,13 @@ pc_classes = {
                 'con': 14,
                 'int': 10,
                 'wis': 13,
-                'cha': 12}}}},                                   
-'monk':{
+                'cha': 12}}}}                                  
+monk ={
     'hit_die':'d8',
     'primary_ability': ('dex', 'wis'),
     'saving_throw_prof':['str', 'dex'],
-    #'arm_&_wep_prof':['light armor', 'medium armor', 'shields', 'simple weapons', 'martial weapons'],
-    'ability_x_method':{
+    'arm_weap_prof':['simple weapons', 'short swords'],
+    'ability_by_method':{
         'pb':{
             'str':  8,
             'dex': 15,
@@ -178,13 +181,13 @@ pc_classes = {
             'con': 14,
             'int': 10,
             'wis': 13,
-            'cha':  8}}},
-'paladin':{
+            'cha':  8}}}
+paladin ={
     'hit_die':'d10',
     'primary_ability': ('str', 'cha'),
     'saving_throw_prof':['wis', 'cha'],
-    #'arm_&_wep_prof':['light armor', 'medium armor', 'shields', 'simple weapons', 'martial weapons'],
-    'ability_x_method':{
+    'arm_weap_prof':['all'],
+    'ability_by_method':{
         'pb':{
             'str_based':{
                 'str': 15,
@@ -228,13 +231,13 @@ pc_classes = {
                 'con': 13,
                 'int': 10,
                 'wis': 12,
-                'cha': 15}}}},                                          
-'ranger':{
+                'cha': 15}}}}                                    
+ranger ={
     'hit_die':'d10',
     'primary_ability': ('dex', 'wisd'),
     'saving_throw_prof':['str', 'dex'],
-    #'arm_&_wep_prof':['light armor', 'medium armor', 'shields', 'simple weapons', 'martial weapons'],
-    'ability_x_method':{
+    'arm_weap_prof':['light armor', 'medium armor', 'shields', 'simple weapons', 'martial weapons'],
+    'ability_by_method':{
         'pb':{
             'dex_based':{
                 'str':  8,
@@ -278,13 +281,13 @@ pc_classes = {
                 'con': 13,
                 'int': 10,
                 'wis': 12,
-                'cha': 15}}}},                                  
-'rogue':{
+                'cha': 15}}}}                                
+rogue ={
     'hit_die':'d8',
     'primary_ability': 'dex',
     'saving_throw_prof':['dex', 'int'],
-    #'arm_&_wep_prof':['light armor', 'medium armor', 'shields', 'simple weapons', 'martial weapons'],
-    'ability_x_method':{
+    'arm_weap_prof':['light armor', 'simple weapons', 'hand crossbows', 'longswords', 'rapiers', 'shortswords'],
+    'ability_by_method':{
         'pb':{
             'main':{
                 'str':  8,
@@ -314,13 +317,13 @@ pc_classes = {
                 'con': 13,
                 'int': 14,
                 'wis': 12,
-                'cha': 10}}}}},                                  
-'sorcerer':{
+                'cha': 10}}}}}                                
+sorcerer ={
     'hit_die':'d6',
     'primary_ability': 'cha',
     'saving_throw_prof':['con', 'cha'],
-    #'arm_&_wep_prof':['light armor', 'medium armor', 'shields', 'simple weapons', 'martial weapons'],
-    'ability_x_method':{
+    'arm_weap_prof':['daggers', 'slings', 'quarterstaffs', 'light crossbows'],
+    'ability_by_method':{
         'pb':{
              'str':  8,
              'dex': 14,
@@ -334,13 +337,13 @@ pc_classes = {
              'con': 14,
              'int': 12,
              'wis': 10,
-             'cha': 15}}},
-'warlock':{
+             'cha': 15}}}
+warlock ={
     'hit_die':'d8',
     'primary_ability': 'cha',
     'saving_throw_prof':['wis', 'cha'],
-    #'arm_&_wep_prof':['light armor', 'medium armor', 'shields', 'simple weapons', 'martial weapons'],
-    'ability_x_method':{
+    'arm_weap_prof':['light armor', 'simple weapons'],
+    'ability_by_method':{
         'pb':{
             'chain/talisman/tome':{
                 'str':  8,
@@ -370,13 +373,13 @@ pc_classes = {
                 'con': 13,
                 'int': 12,
                 'wis':  8,
-                'cha': 15}}}}},                        
-'wizard':{
+                'cha': 15}}}}}                     
+wizard ={
     'hit_die':'d6',
     'primary_ability': 'int',
     'saving_throw_prof':['int', 'wis'],
-    #'arm_&_wep_prof':['light armor', 'medium armor', 'shields', 'simple weapons', 'martial weapons'],
-    'ability_x_method':{
+    'arm_weap_prof':['daggers','darts', 'slings', 'quarterstaffs', 'light crossbows'],
+    'ability_by_method':{
         'pb':{
             'str':  8,
             'dex': 14,
@@ -390,4 +393,4 @@ pc_classes = {
             'con': 14,
             'int': 15,
             'wis': 12,
-            'cha': 10}}}}
+            'cha': 10}}}
