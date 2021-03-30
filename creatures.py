@@ -1,13 +1,43 @@
-creature_keys = ['race', 'size', 'abilities', 'hp', 'alt_hp', 'ac', 'actions', 'bonus_actions', 'skills', 'traits',
-                'features', 'initiative_bonus', 'initiative', 'inventory', 'vision', 'movement', 'main_hand', 'off_hand',
-                'armor', 'disposition', 'suprise', 'advantage', 'disadvantage']
+creature_keys = ['entity_type', 
+                 'race', 
+                 'creature_type', 
+                 'size', 
+                 'abilities', 
+                 'hp',  
+                 'ac', 
+                 'bonus_actions', 
+                 'skills', 
+                 'traits',
+                 'features', 
+                 'initiative_bonus', 
+                 'vision', 
+                 'movement', 
+                 'main_hand', 
+                 'off_hand',
+                 'armor'
+                 'disposition']
+ability_bonus_tbl ={ 1:-5, 2:-4, 3:-4, 4:-3, 5:-3, 6:-2, 7:-2, 8:-1, 9:-1,
+                    10:0, 11:0, 12:1, 13:1, 14:2, 15:2, 16:3, 17:3, 18:4,
+                    19:4, 20:5}
 
+###        'actions':['attack', 'cast', 'dash', 'disengage', 'dodge', 'help', 'hide','ready', 'search', 'use an object', 
+###                   'improvise']
 
-
-aarakocra = {'race':'aarakocra', 'abilities':{'str':10, 'dex':14, 'con':10, 'int':11, 'wis': 12, 'cha':11},'hp':13, 'alt_hp':[8, 3], 'ac': 12, 
-        'actions':['attack', 'cast', 'dash', 'disengage', 'dodge', 'help', 'hide','ready', 'search', 'use an object', 
-                   'improvise'],
-        'bonus_actions': {}, 'skills': False, 'action_count': 0, 'b_action_count': 0, 'reaction_count': 0, 'feats':{},
-        'traits':{}, 'initiative': 2, 
-        'inventory':{}, 'vision': False, 'movement':{'walking': 20, 'flight': 50, 'swimming': False,'climbing': False}, 
-        'main_hand': False, 'off_hand': False, 'armor': False,'disposition':'indifferent'}
+aarakocra = {'entity_type': 'creature', 
+             'race':'aarakocra',
+             'creature_type': 'huminoid',
+             'size': 'medium', 
+             'abilities':{'str':10, 'dex':14, 'con':10, 'int':11, 'wis': 12, 'cha':11},
+             'hp':13,
+             'alt_hp':[8, 3], 
+             'ac': 12, 
+             'bonus_actions': {}, 
+             'skills': False,
+             'traits':{}, 
+             'featuress':{},  
+             'initiative_bonus': 2, 
+             'vision': False, 
+             'movement':{'walking': 20, 'flight': 50}, 
+             'main_hand': False,
+             'off_hand': False, 
+             'disposition':'indifferent'}

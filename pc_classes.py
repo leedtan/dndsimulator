@@ -1,6 +1,7 @@
 ### ability_by_method comes from players guides on rpgbot.net
 
 barbarian = {
+    'pc_class': 'barbarian',
     'hit_die':'d12',
     'primary_ability': 'str',
     'saving_throw_prof':['str', 'con'],
@@ -21,6 +22,7 @@ barbarian = {
             'wis': 10, 
             'cha':12}}}
 bard ={
+    'pc_class': 'bard',
     'hit_die':'d8',
     'primary_ability': 'cha',
     'saving_throw_prof':['dex', 'cha'],
@@ -41,6 +43,7 @@ bard ={
             'wis': 10, 
             'cha': 15}}}
 cleric = {
+    'pc_class': 'cleric',
     'hit_die':'d8',
     'primary_ability': 'wis',
     'saving_throw_prof':['wis', 'cha'],
@@ -91,6 +94,7 @@ cleric = {
                 'wis': 15,
                 'cha': 10}}}}                    
 druid ={
+    'pc_class': 'druid',
     'hit_die':'d8',
     'primary_ability': 'wis',
     'saving_throw_prof':['int', 'wis'],
@@ -113,6 +117,7 @@ druid ={
             'wis': 15, 
             'cha':  8}}}
 fighter ={
+    'pc_class': 'fighter',
     'hit_die':'d10',
     'primary_ability': ['str','dex'],
     'saving_throw_prof':['str', 'con'],
@@ -163,6 +168,7 @@ fighter ={
                 'wis': 13,
                 'cha': 12}}}}                                  
 monk ={
+    'pc_class': 'monk',
     'hit_die':'d8',
     'primary_ability': ('dex', 'wis'),
     'saving_throw_prof':['str', 'dex'],
@@ -183,6 +189,7 @@ monk ={
             'wis': 13,
             'cha':  8}}}
 paladin ={
+    'pc_class': 'paladin',
     'hit_die':'d10',
     'primary_ability': ('str', 'cha'),
     'saving_throw_prof':['wis', 'cha'],
@@ -233,6 +240,7 @@ paladin ={
                 'wis': 12,
                 'cha': 15}}}}                                    
 ranger ={
+    'pc_class': 'ranger',
     'hit_die':'d10',
     'primary_ability': ('dex', 'wisd'),
     'saving_throw_prof':['str', 'dex'],
@@ -283,6 +291,7 @@ ranger ={
                 'wis': 12,
                 'cha': 15}}}}                                
 rogue ={
+    'pc_class': 'rogue',
     'hit_die':'d8',
     'primary_ability': 'dex',
     'saving_throw_prof':['dex', 'int'],
@@ -319,6 +328,7 @@ rogue ={
                 'wis': 12,
                 'cha': 10}}}}}                                
 sorcerer ={
+    'pc_class': 'sorcerer',
     'hit_die':'d6',
     'primary_ability': 'cha',
     'saving_throw_prof':['con', 'cha'],
@@ -339,6 +349,7 @@ sorcerer ={
              'wis': 10,
              'cha': 15}}}
 warlock ={
+    'pc_class': 'warlock',
     'hit_die':'d8',
     'primary_ability': 'cha',
     'saving_throw_prof':['wis', 'cha'],
@@ -375,6 +386,7 @@ warlock ={
                 'wis':  8,
                 'cha': 15}}}}}                     
 wizard ={
+    'pc_class': 'wizard',
     'hit_die':'d6',
     'primary_ability': 'int',
     'saving_throw_prof':['int', 'wis'],

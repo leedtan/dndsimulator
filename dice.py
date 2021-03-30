@@ -1,5 +1,13 @@
 import random
 
+dice_avg = {
+    'd4': 3,
+    'd6': 4,
+    'd8': 5,
+    'd10': 6,
+    'd12': 7,
+    'd20': 11}
+
 ##A simple random number generator meant to be used to simulate dice rolls. Call and define the number of sides
 
 class Dice:

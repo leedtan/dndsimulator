@@ -1,7 +1,7 @@
 dragonborn_black ={
     'race': 'dragonborn',
     'subrace': 'black',
-    'ability score increase':{'str': 2, 'cha': 1},    
+    'ability_score_increase':{'str': 2, 'cha': 1},    
     'size': 'medium',
     'movement': 30,
     'vision': False,
@@ -11,7 +11,7 @@ dragonborn_black ={
 dragonborn_blue ={
     'race': 'dragonborn',
     'subrac': 'blue',
-    'ability score increase':{'str': 2, 'cha': 1},    
+    'ability_score_increase':{'str': 2, 'cha': 1},    
     'size': 'medium',
     'movement': 30,
     'vision': False,
@@ -21,7 +21,7 @@ dragonborn_blue ={
 dragonborn_brass ={
     'race': 'dragonborn',
     'subrace': 'brass',
-    'ability score increase':{'str': 2, 'cha': 1},    
+    'ability_score_increase':{'str': 2, 'cha': 1},    
     'size': 'medium',
     'movement': 30,
     'vision': False,
@@ -31,7 +31,7 @@ dragonborn_brass ={
 dragonborn_bronze ={
     'race': 'dragonborn',
     'subrace': 'bronze',
-    'ability score increase':{'str': 2, 'cha': 1},    
+    'ability_score_increase':{'str': 2, 'cha': 1},    
     'size': 'medium',
     'movement': 30,
     'vision': False,
@@ -41,7 +41,7 @@ dragonborn_bronze ={
 dragonborn_copper ={
     'race': 'dragonborn',
     'subrace': 'copper',
-    'ability score increase':{'str': 2, 'cha': 1},    
+    'ability_score_increase':{'str': 2, 'cha': 1},    
     'size': 'medium',
     'movement': 30,
     'vision': False,
@@ -51,7 +51,7 @@ dragonborn_copper ={
 dragonborn_gold ={
     'race': 'dragonborn',
     'subrace': 'gold',
-    'ability score increase':{'str': 2, 'cha': 1},    
+    'ability_score_increase':{'str': 2, 'cha': 1},    
     'size': 'medium',
     'movement': 30,
     'vision': False,
@@ -61,7 +61,7 @@ dragonborn_gold ={
 dragonborn_green ={
     'race': 'dragonborn',
     'subrace': 'green',
-    'ability score increase':{'str': 2, 'cha': 1},    
+    'ability_score_increase':{'str': 2, 'cha': 1},    
     'size': 'medium',
     'movement': 30,
     'vision': False,
@@ -71,7 +71,7 @@ dragonborn_green ={
 dragonborn_red ={
     'race': 'dragonborn',
     'subrace': 'red',
-    'ability score increase':{'str': 2, 'cha': 1},    
+    'ability_score_increase':{'str': 2, 'cha': 1},    
     'size': 'medium',
     'movement': 30,
     'vision': False,
@@ -81,7 +81,7 @@ dragonborn_red ={
 dragonborn_silver ={
     'race': 'dragonborn',
     'subrace': 'silver',
-    'ability score increase':{'str': 2, 'cha': 1},    
+    'ability_score_increase':{'str': 2, 'cha': 1},    
     'size': 'medium',
     'movement': 30,
     'vision': False,
@@ -91,7 +91,7 @@ dragonborn_silver ={
 dragonborn_silver ={
     'race': 'dragonborn',
     'subrace': 'silver',
-    'ability score increase':{'str': 2, 'cha': 1},    
+    'ability_score_increase':{'str': 2, 'cha': 1},    
     'size': 'medium',
     'movement': 30,
     'vision': False,
@@ -101,7 +101,7 @@ dragonborn_silver ={
 dwarf_hill ={
     'race': 'dwarf',
     'subrace': 'hill',
-    'ability score increase':{'con': 2, 'wis':1},
+    'ability_score_increase':{'con': 2, 'wis':1},
     'size': 'medium',
     'movement': 25,
     'vision':{'darkvision': 60},
@@ -119,7 +119,7 @@ dwarf_hill ={
 dwarf_mountain ={
     'race': 'dwarf',
     'subrace': 'mountain',
-    'ability score increase':{'con': 2, 'str': 2},
+    'ability_score_increase':{'con': 2, 'str': 2},
     'size': 'medium',
     'movement': 25,
     'vision':{'darkvision': 60},
@@ -133,11 +133,11 @@ dwarf_mountain ={
         'special notes': 'Stonecunning. Whenever you make an Intelligence (History) check related to the origin\
         of stonework, you are considered proficient in the History skill and add double your proficiency bonus\
         to the check, instead of your normal proficiency bonus.'}}
-        
+
 elf_dark ={
     'race': 'elf',
     'subrace': 'dark',
-    'ability score increase':{'dex':2, 'cha': 1},
+    'ability_score_increase':{'dex':2, 'cha': 1},
     'size': 'medium',
     'movement': 30,
     'vision':{'superior darkvision':120},
@@ -160,7 +160,7 @@ elf_dark ={
 elf_high ={
     'race': 'elf',
     'subrace': 'high',
-    'ability score increase':{'dex':2, 'int': 1},
+    'ability_score_increase':{'dex':2, 'int': 1},
     'size': 'medium',
     'movement': 30,
     'vision':{'darkvision': 60},
@@ -176,7 +176,7 @@ elf_high ={
 
 elf_wood ={
     'race': 'elf',
-    'ability score increase':{'dex':2, 'wis':1},
+    'ability_score_increase':{'dex':2, 'wis':1},
     'size': 'medium',
     'movement': 35,
     'vision':{'darkvision': 60},
@@ -193,7 +193,7 @@ elf_wood ={
 gnome_forrest ={
     'race': 'gnome',
     'subrace': 'forrest',
-    'ability score increase':{'int':2, 'dex': 1},
+    'ability_score_increase':{'int':2, 'dex': 1},
     'size': 'small',
     'movement': 25,
     'vision':{'darkvision': 60},
@@ -207,7 +207,7 @@ gnome_forrest ={
 gnome_rock ={
     'race': 'gnome',
     'subrace': 'rock',
-    'ability score increase':{'int':2, 'con':1},
+    'ability_score_increase':{'int':2, 'con':1},
     'size': 'small',
     'movement': 25,
     'vision':{'darkvision': 60},
@@ -224,4 +224,4 @@ half_elf ={
     'size': 'medium',
     'movement': 30,
     'vision': {'darkvision':60},
-    'ability score increase':{'cha':2, 'choice 1':1, 'choice 2': 1}}
+    'ability_score_increase':{'cha':2, 'choice 1':1, 'choice 2': 1}}
