@@ -57,7 +57,7 @@ half_plate = {
     'stealth_penalty': True,
     'weight': 40}
     #### heavy armor
-    ring_mail = {
+ring_mail = {
     'type': 'heavy',
     'cost': 30,
     'armor_class':{'base': 14, 'dex_mod': False, 'dex_mod_max': False},
