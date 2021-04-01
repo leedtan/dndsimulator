@@ -24,3 +24,16 @@ class Dice:
             return random.randrange(1, self.num_sides + 1, 1)
         else:
             return sum([random.randrange(1, self.num_sides +1, 1) for i in range(num_to_roll)])
+
+class DiceBag(Dice):
+    def __init__(self):
+        self.d4 = Dice(4)
+        self.d6 = Dice(6)
+        self.d8 = Dice(8)
+        self.d10 = Dice(10)
+        self.d12 = Dice(12)
+        self.d20 = Dice(20)
+    def roll_advantage(self):
+        return max([self.d20.roll() for i in range(2)])
+    def roll_disadvantage(self):
+        return min([self.d20.roll() for i in range(2)])

@@ -1,25 +1,25 @@
-##### light armor
-padded = {
-    'type': 'light',
-    'cost': 5,
-    'armor_class':{'base': 11, 'dex_mod': True, 'dex_mod_max': False},
-    'str_req': False,
-    'stealth_penalty': True,
-    'weight': 8}
-leather = {
-    'type': 'light',
-    'cost': 10,
-    'armor_class':{'base': False, 'dex_mod': False, 'dex_mod_max': False},
-    'str_req': False,
-    'stealth_penalty': False,
-    'weight': 10}
-studded_leather = {
-    'type': 'light',
-    'cost': 45,
-    'armor_class':{'base': 12, 'dex_mod': True , 'dex_mod_max': False},
-    'str_req': False,
-    'stealth_penalty': False,
-    'weight': 13}
+light_armor ={
+    'padded':{
+        'type': 'light',
+        'cost': 5,
+        'armor_class':{'base': 11, 'dex_mod': True, 'dex_mod_max': False},
+        'str_req': False,
+        'stealth_penalty': True,
+        'weight': 8},
+    'leather':{
+        'type': 'light',
+        'cost': 10,
+        'armor_class':{'base': False, 'dex_mod': False, 'dex_mod_max': False},
+        'str_req': False,
+        'stealth_penalty': False,
+        'weight': 10},
+    'studded_leather':{
+        'type': 'light',
+        'cost': 45,
+        'armor_class':{'base': 12, 'dex_mod': True , 'dex_mod_max': False},
+        'str_req': False,
+        'stealth_penalty': False,
+        'weight': 13}}
 #### medium armor
 hide = {
     'type': 'medium',
