@@ -34,6 +34,7 @@ bard ={
     'arm_weap_prof':[('light armor', 'clss_trait'), ('simple weapon', 'clss_trait'), 
                      ('hand crossbow', 'clss_trait'), ('long sword', 'clss_trait'),
                      ('rapier', 'clss_trait'), ('short sword', 'clss_trait')],
+    'spell_casting': True,
     'ability_by_method':{
         'pb':{
             'str':  8, 
@@ -56,23 +57,24 @@ cleric = {
     'saving_throw_prof':[('wis', 'clss_trait'), ('cha', 'clss_trait')],
     'arm_weap_prof':[('light armor', 'clss_trait'), ('medium armor', 'clss_trait'),
                      ('shield', 'clss_trait'), ('simple weapons', 'clss_trait')],
+    'spell_casting': True,
     'ability_by_method':{
         'pb':{
-            'light armor':{
+            'light_armor':{
                 'str':  8, 
                 'dex': 14,
                 'con': 14,
                 'int':  8, 
                 'wis': 15,
                 'cha': 12},
-            'medium armor':{
+            'medium_armor':{
                 'str':  8, 
                 'dex': 14,
                 'con': 14,
                 'int':  8, 
                 'wis': 15,
                 'cha': 12},
-            'heavy armor':{
+            'heavy_armor':{
                 'str': 14, 
                 'dex':  8,
                 'con': 14,
@@ -80,21 +82,21 @@ cleric = {
                 'wis': 15,
                 'cha': 12}},                     
         'sa':{
-            'light armor':{
+            'light_armor':{
                 'str':  8, 
                 'dex': 14,
                 'con': 13,
                 'int': 12, 
                 'wis': 15,
                 'cha': 10},
-            'medium armor':{
+            'medium_armor':{
                 'str': 12, 
                 'dex': 13,
                 'con': 14,
                 'int': 10, 
                 'wis': 15,
                 'cha':  8},
-            'heavy armor':{
+            'heavy_armor':{
                 'str': 13, 
                 'dex':  8,
                 'con': 14,
@@ -111,6 +113,7 @@ druid ={
                      ('dagger', 'clss_trait'), ('dart', 'clss_trait'), ('javelin', 'clss_trait'),
                      ('mace', 'clss_trait'), ('quarterstaff', 'clss_trait'), ('scimitar', 'clss_trait'),
                      ('sicle', 'clss_trait'), ('sling', 'clss_trait'), ('spear', 'clss_trait')],
+    'spell_casting': True,
     'ability_by_method':{
         'pb':{
             'str':  8, 
@@ -208,6 +211,7 @@ paladin ={
     'arm_weap_prof':[('light armor', 'clss_trait'), ('medium armor', 'clss_trait'),
                      ('heavy armor', 'clss_trait'), ('shield', 'clss_trait'),
                      ('simple weapons', 'clss_trait'), ('martial weapons', 'clss_trait')],
+    'spell_casting': True,
     'ability_by_method':{
         'pb':{
             'str_based':{
@@ -261,6 +265,7 @@ ranger ={
     'arm_weap_prof':[('light armor', 'clss_trait'), ('medium armor', 'clss_trait'), 
                      ('shield', 'clss_trait'), ('simple weapons', 'clss_trait'),
                      ('martial weapons', 'clss_trait')],
+    'spell_casting': True,
     'ability_by_method':{
         'pb':{
             'dex_based':{
@@ -351,6 +356,7 @@ sorcerer ={
     'saving_throw_prof':[('con', 'clss_trait'), ('cha', 'clss_trait')],
     'arm_weap_prof':[('dagger', 'clss_trait'), ('sling', 'clss_trait'), ('quarterstaff', 'clss_trait'), 
                      ('light crossbow', 'clss_trait')],
+    'spell_casting': True,
     'ability_by_method':{
         'pb':{
              'str':  8,
@@ -372,6 +378,7 @@ warlock ={
     'primary_ability': 'cha',
     'saving_throw_prof':[('wis', 'clss_trait'), ('cha', 'clss_trait')],
     'arm_weap_prof':[('light armor', 'clss_trait'), ('simple weapon', 'clss_trait')],
+    'spell_casting': True,
     'ability_by_method':{
         'pb':{
             'chain/talisman/tome':{
@@ -389,7 +396,7 @@ warlock ={
                 'wis':  8,
                 'cha': 14},                    
         'sa':{
-            'chain/talisman/tome':{
+            'chain_talisman_tome':{
                 'str':  8,
                 'dex': 13,
                 'con': 14,
@@ -410,6 +417,7 @@ wizard ={
     'saving_throw_prof':[('int', 'clss_trait'), ('wis', 'clss_trait')],
     'arm_weap_prof':[('dagger', 'clss_trait'), ('dart', 'clss_trait'), ('sling', 'clss_trait'),
                      ('quarterstaff', 'clss_trait'), ('light crossbow', 'clss_trait')],
+    'spell_casting': True,
     'ability_by_method':{
         'pb':{
             'str':  8,
