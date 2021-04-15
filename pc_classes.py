@@ -11,6 +11,7 @@ barbarian = {
     'arm_weap_prof':[('light armor', 'clss_trait'), ('medium armor', 'clss_trait'),
                      ('shield', 'clss_trait'), ('simple weapons', 'clss_trait'),
                      ('martial weapons', 'clss_trait')],
+    'num_attacks': 1,
     'ability_by_method':{
         'pb':{
             'str': 15, 
@@ -35,6 +36,7 @@ bard ={
                      ('hand crossbow', 'clss_trait'), ('long sword', 'clss_trait'),
                      ('rapier', 'clss_trait'), ('short sword', 'clss_trait')],
     'spell_casting': True,
+    'num_attacks': 1,
     'ability_by_method':{
         'pb':{
             'str':  8, 
@@ -58,6 +60,7 @@ cleric = {
     'arm_weap_prof':[('light armor', 'clss_trait'), ('medium armor', 'clss_trait'),
                      ('shield', 'clss_trait'), ('simple weapons', 'clss_trait')],
     'spell_casting': True,
+    'num_attacks': 1,
     'ability_by_method':{
         'pb':{
             'light_armor':{
@@ -114,6 +117,7 @@ druid ={
                      ('mace', 'clss_trait'), ('quarterstaff', 'clss_trait'), ('scimitar', 'clss_trait'),
                      ('sicle', 'clss_trait'), ('sling', 'clss_trait'), ('spear', 'clss_trait')],
     'spell_casting': True,
+    'num_attacks': 1,
     'ability_by_method':{
         'pb':{
             'str':  8, 
@@ -137,6 +141,7 @@ fighter ={
     'arm_weap_prof':[('light armor', 'clss_trait'), ('medium armor', 'clss_trait'),
                      ('heavy armor', 'clss_trait'), ('simple weapons', 'clss_trait'), 
                      ('martial weapons', 'clss_trait')],
+    'num_attacks': 1,
     'ability_by_method':{
         'pb':{
             'Strength_based':{
@@ -188,6 +193,7 @@ monk ={
     'primary_ability': ('dex', 'wis'),
     'saving_throw_prof':[('str', 'clss_trait'), ('dex', 'clss_trait')],
     'arm_weap_prof':[('simple weapons', 'clss_trait'), ('short sword', 'clss_trait')],
+    'num_attacks': 1,
     'ability_by_method':{
         'pb':{
             'str':  8,
@@ -212,6 +218,7 @@ paladin ={
                      ('heavy armor', 'clss_trait'), ('shield', 'clss_trait'),
                      ('simple weapons', 'clss_trait'), ('martial weapons', 'clss_trait')],
     'spell_casting': True,
+    'num_attacks': 1,
     'ability_by_method':{
         'pb':{
             'str_based':{
@@ -266,6 +273,7 @@ ranger ={
                      ('shield', 'clss_trait'), ('simple weapons', 'clss_trait'),
                      ('martial weapons', 'clss_trait')],
     'spell_casting': True,
+    'num_attacks': 1,
     'ability_by_method':{
         'pb':{
             'dex_based':{
@@ -318,6 +326,7 @@ rogue ={
     'saving_throw_prof':[('dex', 'clss_trait'), ('int', 'clss_trait')],
     'arm_weap_prof':[('light armor', 'clss_trait'), ('simple weapons', 'clss_trait'), ('hand crossbow', 'clss_trait'),
                     ('longsword', 'clss_trait'), ('rapier', 'clss_trait'), ('shortsword', 'clss_trait')],
+    'num_attacks': 1,
     'ability_by_method':{
         'pb':{
             'main':{
@@ -357,6 +366,7 @@ sorcerer ={
     'arm_weap_prof':[('dagger', 'clss_trait'), ('sling', 'clss_trait'), ('quarterstaff', 'clss_trait'), 
                      ('light crossbow', 'clss_trait')],
     'spell_casting': True,
+    'num_attacks': 1,
     'ability_by_method':{
         'pb':{
              'str':  8,
@@ -379,6 +389,7 @@ warlock ={
     'saving_throw_prof':[('wis', 'clss_trait'), ('cha', 'clss_trait')],
     'arm_weap_prof':[('light armor', 'clss_trait'), ('simple weapon', 'clss_trait')],
     'spell_casting': True,
+    'num_attacks':1,
     'ability_by_method':{
         'pb':{
             'chain/talisman/tome':{
@@ -418,6 +429,7 @@ wizard ={
     'arm_weap_prof':[('dagger', 'clss_trait'), ('dart', 'clss_trait'), ('sling', 'clss_trait'),
                      ('quarterstaff', 'clss_trait'), ('light crossbow', 'clss_trait')],
     'spell_casting': True,
+    'num_attacks': 1,
     'ability_by_method':{
         'pb':{
             'str':  8,
