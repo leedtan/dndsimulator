@@ -43,5 +43,6 @@ aarakocra = {'entity_type': 'creature',
              'vision': False, 
              'movement':{'walking': 20, 'flight': 50}, 
              'main_hand': False,
-             'off_hand': False, 
+             'off_hand': False,
+             'attack_bonus': 4,  
              'disposition':'indifferent'}
