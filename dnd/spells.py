@@ -5,7 +5,6 @@ import random
 import numpy as np
 
 from attacks import Attack, Damage
-from character import Character
 
 
 class HealingWord:

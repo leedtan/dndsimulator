@@ -3,11 +3,12 @@ import itertools
 import random
 
 import numpy as np
-from dice import Dice
 
 from attacks import Attack, Damage
+from dice import Dice
 
 d20 = Dice(20)
+# from strategies import check_death
 
 
 class Character:
@@ -63,3 +64,6 @@ class Character:
             self._hp = hp
         else:
             self._hp = (self._hp + hp) // 2
+
+    def strategy(self, npcs, pcs, table, state):
+        return

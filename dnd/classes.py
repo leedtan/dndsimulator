@@ -3,13 +3,13 @@ import itertools
 import random
 
 import numpy as np
-from strategies import PreserveLife
 
 from attacks import Attack, Damage
 from character import Character
 from spells import HealingWord, MagicMissile
+from strategies import Charger, PreserveLife
 
-barbarian3 = Character(
+barbarian3 = Charger(
     hp=36,
     ac=16,
     attacks=Attack(to_hit=5, damage=Damage(rolls=[12], flat_bonus=3)),
@@ -17,7 +17,7 @@ barbarian3 = Character(
     name="barbarian3",
     resistance="all",
 )
-cleric = Character(
+cleric = Charger(
     hp=10,
     ac=18,
     attacks=Attack(to_hit=5, damage=Damage(rolls=[8], flat_bonus=5)),
@@ -28,7 +28,7 @@ cleric = Character(
     name="cleric",
     once_per_long_rest=[PreserveLife()],
 )
-cleric3 = Character(
+cleric3 = Charger(
     hp=27,
     ac=18,
     attacks=Attack(to_hit=5, damage=Damage(rolls=[8], flat_bonus=5)),
@@ -39,21 +39,21 @@ cleric3 = Character(
     name="cleric3",
     once_per_long_rest=[PreserveLife()],
 )
-fighter = Character(
+fighter = Charger(
     hp=13,
     ac=18,
     attacks=Attack(to_hit=4, damage=Damage(rolls=[6], flat_bonus=2)),
     stats={"dex": -1},
     name="fighter",
 )
-goblin = Character(
+goblin = Charger(
     hp=10,
     ac=8,
     attacks=[Attack(to_hit=2, damage=Damage(rolls=[4], flat_bonus=2))],
     stats={"dex": -1},
     name="goblin",
 )
-rogue = Character(
+rogue = Charger(
     hp=11,
     ac=14,
     attacks=[
@@ -73,7 +73,7 @@ sorcerer = Character(
     stats={"dex": 2},
     name="sorcerer",
 )
-sorcerer3 = Character(
+sorcerer3 = Charger(
     hp=23,
     ac=15,
     attacks=Attack(to_hit=5, damage=Damage(rolls=[10], flat_bonus=0)),
@@ -83,7 +83,7 @@ sorcerer3 = Character(
     name="sorcerer3",
 )
 
-umberhulk = Character(
+umberhulk = Charger(
     hp=93,
     ac=18,
     attacks=[
@@ -95,7 +95,7 @@ umberhulk = Character(
     imposes_disadv=True,
     has_adv=True,
 )
-warlock = Character(
+warlock = Charger(
     hp=11,
     ac=15,
     attacks=Attack(to_hit=5, damage=Damage(rolls=[6], flat_bonus=3)),

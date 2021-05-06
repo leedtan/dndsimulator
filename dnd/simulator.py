@@ -5,7 +5,6 @@ import random
 import numpy as np
 
 from attacks import Attack, Damage
-from character import Character
 from classes import (
     barbarian3,
     cleric,
@@ -25,8 +24,9 @@ def gauntlet(party):
     stages_completed = 0
     table = np.zeros([100, 100], dtype=object)
     for enemies in [
-        [copy.copy(goblin)],
-        [copy.copy(goblin) for _ in range(10)],
+        [copy.copy(goblin) for _ in range(3)],
+        [copy.copy(goblin) for _ in range(7)],
+        [copy.copy(goblin) for _ in range(8)],
         [copy.copy(umberhulk)],
         [copy.copy(umberhulk), copy.copy(umberhulk)],
     ]:
@@ -37,7 +37,11 @@ def gauntlet(party):
     return stages_completed
 
 
-sorc_team = [copy.deepcopy(sorcerer) for _ in range(4)]
-gauntlets = [gauntlet(sorc_team) for _ in range(100)]
-print(gauntlets)
+def main():
+    sorc_team = [sorcerer, sorcerer, sorcerer, sorcerer, fighter, fighter]
+    gauntlets = [gauntlet(sorc_team) for _ in range(100)]
+    print(gauntlets)
 
+
+if __name__ == "__main__":
+    main()
