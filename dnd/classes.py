@@ -46,12 +46,13 @@ fighter = Charger(
     stats={"dex": -1},
     name="fighter",
 )
-goblin = Charger(
-    hp=10,
-    ac=8,
-    attacks=[Attack(to_hit=2, damage=Damage(rolls=[4], flat_bonus=2))],
+PAMfighter = Charger(
+    hp=13,
+    ac=18,
+    attacks=Attack(to_hit=4, damage=Damage(rolls=[6], flat_bonus=2)),
     stats={"dex": -1},
-    name="goblin",
+    name="fighter",
+    PAM=Attack(to_hit=4, damage=Damage(rolls=[6], flat_bonus=2)),
 )
 rogue = Charger(
     hp=11,
@@ -82,7 +83,13 @@ sorcerer3 = Charger(
     stats={"dex": 2},
     name="sorcerer3",
 )
-
+goblin = Charger(
+    hp=10,
+    ac=8,
+    attacks=[Attack(to_hit=2, damage=Damage(rolls=[4], flat_bonus=2))],
+    stats={"dex": -1},
+    name="goblin",
+)
 umberhulk = Charger(
     hp=93,
     ac=18,

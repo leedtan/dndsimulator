@@ -28,6 +28,7 @@ class Character:
         once_per_long_rest=[],
         long_rest_uses=[],
         party=True,
+        PAM=False,
     ):
         self.party = party
         self.imposes_disadv, self.has_adv = imposes_disadv, has_adv
@@ -50,6 +51,10 @@ class Character:
         self.reach = 1
         self.movespeed = 6
         self.charge = True
+        self.PAM = PAM
+
+    def __repr__(self):
+        return self.name
 
     def roll_init(self):
         return self.stats["dex"] + d20.roll() + self.stats["dex"] / 100.0

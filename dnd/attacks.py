@@ -3,6 +3,7 @@ import itertools
 import random
 
 import numpy as np
+
 from dice import Dice
 
 d20 = Dice(20)
@@ -23,20 +24,21 @@ class Attack:
         self.to_hit = to_hit
         self.damage = damage
 
-    def apply_damage(self, to_hit, damage, enemy):
-        if to_hit >= enemy.ac:
-            enemy.hp -= damage
+    # def apply_damage(self, enemy, damage):
+    #     enemy.hp -= damage
 
     def roll_hit(self, advantage=False, disadvantage=False, enemy=None):
         if advantage and disadvantage:
             advantage = disadvantage = False
         roll1 = self.to_hit + d20.roll()
+        roll2 = self.to_hit + d20.roll()
         if advantage:
-            roll2 = self.to_hit + d20.roll()
-            self.apply_damage(max(roll1, roll2), self.damage.roll(), enemy)
+            hits = max(roll1, roll2) > enemy.ac
         elif disadvantage:
-            roll2 = self.to_hit + d20.roll()
-            self.apply_damage(min(roll1, roll2), self.damage.roll(), enemy)
+            hits = max(roll1, roll2) > enemy.ac
         else:
-            self.apply_damage(roll1, self.damage.roll(), enemy)
+            hits = roll1 > enemy.ac
+        if hits:
+            enemy.hp -= self.damage.roll()
+        return hits
 
