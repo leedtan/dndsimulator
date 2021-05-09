@@ -3,15 +3,19 @@ import itertools
 import random
 
 import numpy as np
+from joblib import Parallel, delayed
 
 from attacks import Attack, Damage
 from classes import (
     PAMfighter,
+    PAMfighterBig,
     barbarian3,
     cleric,
     cleric3,
     fighter,
+    giant,
     goblin,
+    paladin8,
     rogue,
     sorcerer,
     sorcerer3,
@@ -23,31 +27,43 @@ from combat import combat
 
 def gauntlet(party):
     stages_completed = 0
-    table = np.zeros([8, 8], dtype=object)
-    for enemies in [
-        [goblin] * 1,
-        [goblin] * 2,
-        [umberhulk] * 1,
-        [umberhulk] * 1,
-    ]:
-        result = combat(
-            [copy.copy(char) for char in party],
-            [copy.copy(char) for char in enemies],
-            copy.copy(table),
-        )
-        print("finished a combat", result)
+    table = np.zeros([20, 20], dtype=object)
+    party = [copy.copy(char) for char in party]
+    for i, enemies in enumerate(
+        [
+            [goblin] * 3,
+            [goblin] * 9,
+            [umberhulk] * 1,
+            [umberhulk] * 1,
+            [umberhulk] * 2,
+            [umberhulk] * 2,
+            [umberhulk] * 3,
+            [umberhulk] * 3,
+            [giant] * 1,
+            [giant] * 2,
+            [giant] * 3,
+        ]
+    ):
+        if i % 2 == 0 and i > 0:
+            [char.shortrest() for char in party]
+        result = combat(party, [copy.copy(char) for char in enemies], copy.copy(table),)
         if not result:
             return stages_completed
         stages_completed += 1
+        party = [char for char in party if char.hp > 0]
     return stages_completed
 
 
 def main():
-    dreamteam = [PAMfighter, PAMfighter]
-    gauntlets = [gauntlet(dreamteam) for _ in range(10)]
+    dreamteam = [paladin8, paladin8]
+    if 0:
+        gauntlets = Parallel(n_jobs=5)(delayed(gauntlet)(dreamteam) for _ in range(10))
+    else:
+        gauntlets = [gauntlet(dreamteam) for _ in range(10)]
     print(gauntlets)
     return gauntlets
 
 
 if __name__ == "__main__":
     main()
+

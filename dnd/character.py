@@ -8,7 +8,6 @@ from attacks import Attack, Damage
 from dice import Dice
 
 d20 = Dice(20)
-# from strategies import check_death
 
 
 class Character:
@@ -29,6 +28,7 @@ class Character:
         long_rest_uses=[],
         party=True,
         PAM=False,
+        reach=1,
     ):
         self.party = party
         self.imposes_disadv, self.has_adv = imposes_disadv, has_adv
@@ -48,10 +48,14 @@ class Character:
         self.once_per_long_rest = once_per_long_rest
         self.long_rest_uses = long_rest_uses
         self.long_rest_uses_max = copy.copy(long_rest_uses)
-        self.reach = 1
+        self.reach = reach
         self.movespeed = 6
         self.charge = True
         self.PAM = PAM
+        self.has_react = True
+        self.has_action = True
+        self.has_bonus = True
+        self.has_obj_interract = True
 
     def __repr__(self):
         return self.name
@@ -72,3 +76,13 @@ class Character:
 
     def strategy(self, npcs, pcs, table, state):
         return
+
+    def reset_turn(self):
+        self.has_react = True
+        self.has_action = True
+        self.has_bonus = True
+        self.has_obj_interract = True
+
+    def shortrest(self):
+        if self.hp > 0:
+            self.hp = self.max_hp

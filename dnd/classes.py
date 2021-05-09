@@ -6,6 +6,7 @@ import numpy as np
 
 from attacks import Attack, Damage
 from character import Character
+from effects import BlastBack
 from spells import HealingWord, MagicMissile
 from strategies import Charger, PreserveLife
 
@@ -50,6 +51,18 @@ PAMfighter = Charger(
     hp=13,
     ac=18,
     attacks=Attack(to_hit=4, damage=Damage(rolls=[6], flat_bonus=2)),
+    stats={"dex": -1},
+    name="fighter",
+    PAM=[Attack(to_hit=4, damage=Damage(rolls=[6], flat_bonus=2))],
+)
+PAMfighterBig = Charger(
+    hp=60,
+    ac=18,
+    attacks=[
+        Attack(to_hit=4, damage=Damage(rolls=[6], flat_bonus=2)),
+        Attack(to_hit=4, damage=Damage(rolls=[6], flat_bonus=2)),
+        Attack(to_hit=4, damage=Damage(rolls=[4], flat_bonus=2)),
+    ],
     stats={"dex": -1},
     name="fighter",
     PAM=Attack(to_hit=4, damage=Damage(rolls=[6], flat_bonus=2)),
@@ -102,10 +115,41 @@ umberhulk = Charger(
     imposes_disadv=True,
     has_adv=True,
 )
+giant = Charger(
+    hp=300,
+    ac=18,
+    attacks=[
+        Attack(to_hit=12, damage=Damage(rolls=[12], flat_bonus=7)),
+        Attack(to_hit=12, damage=Damage(rolls=[12, 12], flat_bonus=7)),
+        Attack(to_hit=12, damage=Damage(rolls=[12, 12], flat_bonus=7)),
+    ],
+    stats={"dex": -1},
+    name="giant",
+)
 warlock = Charger(
     hp=11,
     ac=15,
     attacks=Attack(to_hit=5, damage=Damage(rolls=[6], flat_bonus=3)),
     stats={"dex": 2},
     name="warlock",
+)
+paladin8 = Charger(
+    hp=100,
+    ac=18,
+    attacks=[
+        Attack(to_hit=6, damage=Damage(rolls=[10], flat_bonus=4)),
+        Attack(to_hit=6, damage=Damage(rolls=[10], flat_bonus=4)),
+        Attack(to_hit=6, damage=Damage(rolls=[4], flat_bonus=4)),
+    ],
+    stats={"dex": 2},
+    name="warlock",
+    reach=2,
+    PAM=[
+        Attack(
+            to_hit=6, damage=Damage(rolls=[10], flat_bonus=4), on_hit=[BlastBack(10)]
+        ),
+        Attack(
+            to_hit=6, damage=Damage(rolls=[10], flat_bonus=4), on_hit=[BlastBack(10)]
+        ),
+    ],
 )

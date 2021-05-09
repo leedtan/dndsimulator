@@ -17,12 +17,13 @@ def roll_init(x):
 
 
 def combat(pcs, npcs, table):
+    avg = table.shape[0]
     for i, pc in enumerate(pcs):
-        table[i + 1, -1] = pc
-        pc.coor = (i + 1, table.shape[1] - 1)
+        table[i + avg, -1] = pc
+        pc.coor = (i + avg, table.shape[1] - 1)
     for i, npc in enumerate(npcs):
-        table[i + 1, 0] = npc
-        npc.coor = (i + 1, 0)
+        table[i + avg, 0] = npc
+        npc.coor = (i + avg, 0)
         npc.party = False
     all_characters = pcs + npcs
     state = {"pcs": pcs, "npcs": npcs}
@@ -31,13 +32,13 @@ def combat(pcs, npcs, table):
         for character in initiative:
             if character.hp <= 0:
                 continue
+            character.reset_turn()
             end_val = character.strategy(npcs, pcs, table, state)
             end_val = check_death(state)
             if end_val >= 0:
                 return end_val
 
         end_val = check_death(state)
-        print("end val", end_val)
         if end_val >= 0:
             return end_val
     return -1

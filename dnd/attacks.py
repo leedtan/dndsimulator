@@ -20,14 +20,16 @@ class Damage:
 
 
 class Attack:
-    def __init__(self, to_hit, damage):
+    def __init__(self, to_hit, damage, on_hit=[]):
         self.to_hit = to_hit
         self.damage = damage
+        self.on_hit = on_hit
 
-    # def apply_damage(self, enemy, damage):
     #     enemy.hp -= damage
 
-    def roll_hit(self, advantage=False, disadvantage=False, enemy=None):
+    def roll_hit(
+        self, advantage=False, disadvantage=False, enemy=None, caster=None, table=None
+    ):
         if advantage and disadvantage:
             advantage = disadvantage = False
         roll1 = self.to_hit + d20.roll()
@@ -40,5 +42,8 @@ class Attack:
             hits = roll1 > enemy.ac
         if hits:
             enemy.hp -= self.damage.roll()
+        if hits:
+            for effect in self.on_hit:
+                effect.apply(enemy, caster, table)
         return hits
 
