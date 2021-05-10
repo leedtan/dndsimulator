@@ -1,13 +1,18 @@
 import copy
-import itertools
+import math
 import random
 
-import numpy as np
-
-from attacks import Attack, Damage
+from attacks import MultiAttack
 from dice import Dice
+from strategies import check_death, get_closest_enemy, get_order, move_path
+from utils import move_to_enemy
 
 d20 = Dice(20)
+
+flag = 0
+PLAN_NORMAL = 0
+PLAN_CHANGED = 1
+PLAN_DEAD = -1
 
 
 class Character:
@@ -18,6 +23,7 @@ class Character:
         attacks,
         stats,
         name,
+        level,
         spells=[],
         spell_slots=[],
         spellcasting_modifier=0,
@@ -29,6 +35,8 @@ class Character:
         party=True,
         PAM=False,
         reach=1,
+        maxreach=None,  # noqa
+        charge_forward=True,
     ):
         self.party = party
         self.imposes_disadv, self.has_adv = imposes_disadv, has_adv
@@ -40,7 +48,26 @@ class Character:
         self.max_spell_slots = copy.copy(spell_slots)
         if not isinstance(attacks, list):
             attacks = [attacks]
+        if not isinstance(attacks[0], MultiAttack):
+            attacks = [MultiAttack(attack) for attack in attacks]
+        for attack in attacks:
+            if attack.max_distance is None:
+                attack.max_distance = reach
+                for atk in attack.attacks:
+                    atk.max_distance = reach
         self.attacks = attacks
+        if PAM is not False:
+            if not isinstance(PAM, list):
+                PAM = [PAM]
+            if not isinstance(PAM[0], MultiAttack):
+                PAM = [MultiAttack(attack) for attack in PAM]
+            for attack in PAM:
+                if attack.max_distance is None:
+                    attack.max_distance = reach
+                    for atk in attack.attacks:
+                        atk.max_distance = reach
+
+        self.PAM = PAM
         self.stats = stats
         self.name = name
         self.spellcasting_modifier = spellcasting_modifier
@@ -50,12 +77,16 @@ class Character:
         self.long_rest_uses_max = copy.copy(long_rest_uses)
         self.reach = reach
         self.movespeed = 6
-        self.charge = True
-        self.PAM = PAM
+        self.charge_forward = charge_forward
         self.has_react = True
         self.has_action = True
         self.has_bonus = True
         self.has_obj_interract = True
+        self.level = self.max_hit_dice = self.hit_dice = level
+        # if maxreach is None:
+        #     if attacks[0].max_distance is not None:
+        #         maxreach = attacks[0].max_distance
+        # self.maxreach = maxreach
 
     def __repr__(self):
         return self.name
@@ -74,15 +105,99 @@ class Character:
         else:
             self._hp = (self._hp + hp) // 2
 
-    def strategy(self, npcs, pcs, table, state):
-        return
-
     def reset_turn(self):
         self.has_react = True
         self.has_action = True
         self.has_bonus = True
         self.has_obj_interract = True
+        [attack.reset() for attack in self.attacks]
+        if self.PAM:
+            [attack.reset() for attack in self.PAM]
 
     def shortrest(self):
         if self.hp > 0:
+            while (self.hp < (self.max_hp - 3)) and (self.hit_dice > 0):
+                self.roll_hit_dice()
+
+    def roll_hit_dice(self):
+        self.hp = self.hp + 3 + random.randint(1, 8)
+        self.hit_dice -= 1
+        self.hp = min(self.hp, self.max_hp)
+
+    def longrest(self):
+        if self.hp > 0:
             self.hp = self.max_hp
+        self.hit_dice = self.hit_dice + math.ceil(self.max_hit_dice / 2)
+        self.hit_dice = min(self.hit_dice, self.max_hit_dice)
+
+    def make_attack(self, attacks, atk_distance, closest_enemy, table, state, check_death):
+        attack = attacks[0]
+        for atk in attacks:
+            if atk.priority(atk_distance):
+                attack = atk
+        for atk in attack.attacks:
+            atk.roll_hit(
+                enemy=closest_enemy,
+                advantage=self.has_adv,
+                disadvantage=closest_enemy.imposes_disadv,
+                caster=self,
+                table=table,
+            )
+            end_val = check_death(state)
+            if end_val >= 0:
+                return end_val
+        return -1
+
+    def charge(self, move_remaining, enemies, table, state):
+
+        stop_move = False
+        i = 0
+        while move_remaining > 0 and not stop_move:
+            if i > 3:
+                # stop_move = True
+                a = 2
+            i += 1
+            closest_enemy = get_closest_enemy(enemies, self.coor)
+            atk_distance = max(abs(closest_enemy.coor[0] - self.coor[0]), abs(closest_enemy.coor[1] - self.coor[1]),)
+            if atk_distance <= self.reach:
+                stop_move = True
+                break
+            final_destination, reverse_path, path_scores = move_to_enemy(self, closest_enemy, table)
+            # print(i)
+            if i > 4:
+                breakpoint()
+                print("wtf")
+            current = final_destination
+            order = get_order(current, reverse_path, self)
+            moves_used, enemy_moved_me = move_path(table, order, self, enemies, move_remaining, state)
+            if enemy_moved_me == PLAN_DEAD:
+                return
+            table[self.coor] = self
+            move_remaining -= moves_used
+            if enemy_moved_me == PLAN_CHANGED:
+                continue
+
+            if i > 10:
+                breakpoint()
+                a = 2  # noqa
+            closest_enemy = get_closest_enemy(enemies, self.coor)
+            atk_distance = max(abs(closest_enemy.coor[0] - self.coor[0]), abs(closest_enemy.coor[1] - self.coor[1]),)
+            if atk_distance <= self.reach:
+                stop_move = True
+                break
+
+    def strategy(self, npcs, pcs, table, state):
+        if self.party:
+            enemies = npcs
+        else:
+            enemies = pcs
+        move_remaining = self.movespeed
+        if self.charge_forward:
+            self.charge(move_remaining, enemies, table, state)
+
+        closest_enemy = get_closest_enemy(enemies, self.coor)
+        atk_distance = max(abs(closest_enemy.coor[0] - self.coor[0]), abs(closest_enemy.coor[1] - self.coor[1]),)
+        if atk_distance <= self.reach:
+            end_val = self.make_attack(self.attacks, atk_distance, closest_enemy, table, state, check_death)
+            if end_val >= 0:
+                return end_val

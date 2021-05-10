@@ -17,13 +17,14 @@ def roll_init(x):
 
 
 def combat(pcs, npcs, table):
-    avg = table.shape[0]
     for i, pc in enumerate(pcs):
-        table[i + avg, -1] = pc
-        pc.coor = (i + avg, table.shape[1] - 1)
+        start_x = table.shape[0] // 2 - len(pcs) // 2
+        table[i + start_x, -1] = pc
+        pc.coor = (i + start_x, table.shape[1] - 1)
     for i, npc in enumerate(npcs):
-        table[i + avg, 0] = npc
-        npc.coor = (i + avg, 0)
+        start_x = table.shape[0] // 2 - len(npcs) // 2
+        table[i + start_x, 0] = npc
+        npc.coor = (i + start_x, 0)
         npc.party = False
     all_characters = pcs + npcs
     state = {"pcs": pcs, "npcs": npcs}

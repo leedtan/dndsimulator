@@ -1,4 +1,3 @@
-from collections import defaultdict
 from queue import PriorityQueue
 
 
@@ -34,9 +33,7 @@ def get_neighbors(table, coor, destination, party):
                 and not (coor[1] + j < 0 or coor[1] + j >= table.shape[1])
             ):
                 next_loc = (coor[0] + i, coor[1] + j)
-                if (
-                    table[next_loc] == 0 or table[next_loc].party == party
-                ) or next_loc == destination:
+                if (table[next_loc] == 0 or table[next_loc].party == party) or next_loc == destination:
                     yield next_loc
 
 
@@ -55,18 +52,11 @@ def move_to_enemy(self, closest_enemy, table):
     while not frontier.empty():
         i = i + 1
         current = frontier.get()
-        distance = abs(current[0] - closest_enemy.coor[0]) + abs(
-            current[1] - closest_enemy.coor[1]
-        )
-        reach_distance = max(
-            abs(current[0] - closest_enemy.coor[0]),
-            abs(current[1] - closest_enemy.coor[1]),
-        )
+        # distance = abs(current[0] - closest_enemy.coor[0]) + abs(current[1] - closest_enemy.coor[1])
+        reach_distance = max(abs(current[0] - closest_enemy.coor[0]), abs(current[1] - closest_enemy.coor[1]),)
         neighbors = get_neighbors(table, current, closest_enemy.coor, self.party)
 
-        if reach_distance <= self.reach and (
-            table[current] == 0 or table[current] == self
-        ):
+        if reach_distance <= self.reach and (table[current] == 0 or table[current] == self):
             break
         for next_item in neighbors:
             new_cost = cost_so_far[current] + 1 + (table[next_item] != 0)

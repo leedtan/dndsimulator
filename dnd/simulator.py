@@ -1,27 +1,9 @@
 import copy
-import itertools
-import random
 
 import numpy as np
 from joblib import Parallel, delayed
 
-from attacks import Attack, Damage
-from classes import (
-    PAMfighter,
-    PAMfighterBig,
-    barbarian3,
-    cleric,
-    cleric3,
-    fighter,
-    giant,
-    goblin,
-    paladin8,
-    rogue,
-    sorcerer,
-    sorcerer3,
-    umberhulk,
-    warlock,
-)
+from classes import giant, goblin, paladin8, umberhulk
 from combat import combat
 
 
@@ -32,7 +14,6 @@ def gauntlet(party):
     for i, enemies in enumerate(
         [
             [goblin] * 3,
-            [goblin] * 9,
             [umberhulk] * 1,
             [umberhulk] * 1,
             [umberhulk] * 2,
@@ -42,10 +23,18 @@ def gauntlet(party):
             [giant] * 1,
             [giant] * 2,
             [giant] * 3,
+            [giant] * 4,
+            [giant] * 5,
+            [giant] * 6,
+            [giant] * 7,
+            [giant] * 8,
         ]
     ):
-        if i % 2 == 0 and i > 0:
+        if ((i % 2) == 0) and (i > 0):
             [char.shortrest() for char in party]
+        if ((i % 6) == 0) and (i > 0):
+            [char.longrest() for char in party]
+
         result = combat(party, [copy.copy(char) for char in enemies], copy.copy(table),)
         if not result:
             return stages_completed
@@ -59,7 +48,7 @@ def main():
     if 0:
         gauntlets = Parallel(n_jobs=5)(delayed(gauntlet)(dreamteam) for _ in range(10))
     else:
-        gauntlets = [gauntlet(dreamteam) for _ in range(10)]
+        gauntlets = [gauntlet(dreamteam) for _ in range(30)]
     print(gauntlets)
     return gauntlets
 

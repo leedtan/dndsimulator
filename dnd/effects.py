@@ -8,15 +8,16 @@ class BlastBack:
     def apply(self, enemy, caster, table):
         ecoor = enemy.coor
         ccoor = caster.coor
-
-        if ecoor[0] > ccoor[0]:
-            enemy.coor[0] = ecoor[0] + distance
-        if ecoor[0] < ccoor[0]:
-            enemy.coor[0] = ecoor[0] - distance
+        print("blasting back")
 
         if ecoor[1] > ccoor[1]:
-            enemy.coor[1] = ecoor[1] + distance
+            enemy.coor[1] = ecoor[1] + self.distance
         if ecoor[1] < ccoor[1]:
-            enemy.coor[1] = ecoor[1] - distance
+            enemy.coor[1] = ecoor[1] - self.distance
+
+        if ecoor[0] > ccoor[0]:
+            enemy.coor[0] = ecoor[0] + self.distance
+        if ecoor[0] < ccoor[0]:
+            enemy.coor[0] = ecoor[0] - self.distance
 
         place_closest_position(enemy, enemy.coor, table)

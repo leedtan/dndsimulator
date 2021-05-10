@@ -1,7 +1,9 @@
-from character import Character
-from utils import move_to_enemy
+# from character import Character
 
 flag = 0
+PLAN_NORMAL = 0
+PLAN_CHANGED = 1
+PLAN_DEAD = -1
 
 
 def get_closest_enemy(enemies, coor):
@@ -9,7 +11,7 @@ def get_closest_enemy(enemies, coor):
     distance = 10000
     if flag:
         breakpoint()
-        a = 2
+        a = 2  # noqa
     for enemy in enemies:
         if enemy.hp > 0:
             this_dist = (
@@ -35,27 +37,25 @@ def get_order(current, reverse_path, self):
     return order
 
 
-def check_react(char, enemy, last_loc, loc, table):
+def check_react(char, enemy, last_loc, loc, table, state):
+    hits = 0
     new_dist = max_distance(loc, enemy.coor)
     last_dist = max_distance(last_loc, enemy.coor)
-    if (
-        new_dist <= enemy.reach
-        and last_dist >= enemy.reach
-        and enemy.PAM
-        and enemy.has_react
-    ):
+    if new_dist <= enemy.reach and last_dist >= enemy.reach and enemy.PAM and enemy.has_react:
         for pam_attack in enemy.PAM:
-            hits = pam_attack.roll_hit(
-                enemy=char,
-                advantage=enemy.has_adv,
-                disadvantage=char.imposes_disadv,
-                caster=char,
-                table=table,
-            )
+            # hit = pam_attack.roll_hit(
+            #     enemy=char, advantage=enemy.has_adv, disadvantage=char.imposes_disadv, caster=char, table=table,
+            # )
+            # hits += hit
+
+            end_val = enemy.make_attack(enemy.PAM, new_dist, char, table, state, check_death)
+            if end_val >= 0:
+                return end_val
         enemy.has_react = False
+    return hits
 
 
-def move_path(table, order, char, enemies, move_remaining):
+def move_path(table, order, char, enemies, move_remaining, state):
     movement = 0
     for loc in order[::-1]:
         if loc == char.coor:
@@ -71,12 +71,14 @@ def move_path(table, order, char, enemies, move_remaining):
             char.coor = loc
             movement += 1
             for enemy in enemies:
-                reactions = check_react(char, enemy, last_loc, loc, table)
+                reactions = check_react(char, enemy, last_loc, loc, table, state)
+                if reactions != 0:
+                    return movement, PLAN_DEAD
             if char.coor != loc:
-                return movement, 1
+                return movement, PLAN_CHANGED
             if movement >= move_remaining:
-                return movement, 0
-    return movement, 0
+                return movement, PLAN_NORMAL
+    return movement, PLAN_NORMAL
 
 
 def max_distance(a, b):
@@ -93,74 +95,10 @@ def get_destination(closest_enemy, current, reverse_path):
     return current
 
 
-class Charger(Character):
-    def strategy(self, npcs, pcs, table, state):
-        coor = self.coor
-        if self.party:
-            enemies = npcs
-        else:
-            enemies = pcs
-        move_remaining = self.movespeed
-        if self.charge:
-            stop_move = False
-            i = 0
-            while move_remaining > 0 and stop_move == False:
-                if i > 3:
-                    stop_move = True
-                    a = 2
-                i += 1
-                closest_enemy = get_closest_enemy(enemies, self.coor)
-                atk_distance = max(
-                    abs(closest_enemy.coor[0] - self.coor[0]),
-                    abs(closest_enemy.coor[1] - self.coor[1]),
-                )
-                if atk_distance <= self.reach:
-                    stop_move = True
-                    break
-                final_destination, reverse_path, path_scores = move_to_enemy(
-                    self, closest_enemy, table
-                )
-                current = final_destination
-                # if current not in reverse_path.keys():
-                #     final_destination = current = get_destination(
-                #         closest_enemy, current, reverse_path
-                #     )
-                order = get_order(current, reverse_path, self)
-                moves_used, enemy_moved_me = move_path(
-                    table, order, self, enemies, move_remaining
-                )
-                table[self.coor] = self
-                move_remaining -= moves_used
-                if enemy_moved_me:
-                    continue
-
-                if i > 10:
-                    breakpoint()
-                    a = 2
-                closest_enemy = get_closest_enemy(enemies, self.coor)
-                atk_distance = max(
-                    abs(closest_enemy.coor[0] - self.coor[0]),
-                    abs(closest_enemy.coor[1] - self.coor[1]),
-                )
-                if atk_distance <= self.reach:
-                    stop_move = True
-                    break
-        atk_distance = max(
-            abs(closest_enemy.coor[0] - self.coor[0]),
-            abs(closest_enemy.coor[1] - self.coor[1]),
-        )
-        if atk_distance <= self.reach:
-            for attack in self.attacks:
-                attack.roll_hit(
-                    enemy=closest_enemy,
-                    advantage=self.has_adv,
-                    disadvantage=closest_enemy.imposes_disadv,
-                    caster=self,
-                    table=table,
-                )
-                end_val = check_death(state)
-                if end_val >= 0:
-                    return end_val
+# class Charger(Character):
+#     def __init__(self, *args, **kwargs):
+#         super(Charger).__init__(*args, **kwargs)
+#         self.charge = True
 
 
 def check_death(state):
@@ -180,10 +118,10 @@ class PreserveLife:
         num_dead = len([ally for ally in allies if ally.hp == 0])
         return len(num_dead >= 2)
 
-    def cast(self, allies, enemies):
-        targets = [ally for ally in allies if ally.hp == 0]
-        num_targets = len(targets)
-        amount_heal = 15 // num_targets
-        for target in targets:
-            target.hp += amount_healed
-        return True
+    # def cast(self, allies, enemies):
+    #     targets = [ally for ally in allies if ally.hp == 0]
+    #     num_targets = len(targets)
+    #     amount_heal = 15 // num_targets
+    #     for target in targets:
+    #         target.hp += amount_healed
+    #     return True
