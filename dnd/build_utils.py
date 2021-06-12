@@ -1,4 +1,13 @@
+import os.path
+import sys
 from collections import defaultdict
+
+file = os.getcwd()
+# sys.path.append(
+#     os.path.abspath(os.path.join(os.path.dirname(file), os.path.pardir)))
+sys.path.append(os.path.join("..", os.getcwd(), ".."))
+from armor import armor as armorsmith  # noqa
+from weapons import weapons as weaponsmith  # noqa
 
 
 class ASI:
