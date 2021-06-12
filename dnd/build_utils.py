@@ -42,7 +42,9 @@ def calc_spell_slots(class_levels):
     spell_slots[1] = min((spell_level >= 3) * (spell_level - 1), 3)
     spell_slots[2] = min((spell_level >= 5) * (spell_level - 3), 3)
     spell_slots[3] = min((spell_level >= 7) * (spell_level - 6), 3)
-    spell_slots[4] = min((spell_level >= 9) * (spell_level - 8), 2) + (spell_level >= 18)
+    spell_slots[4] = min((spell_level >= 9) * (spell_level - 8), 2) + (
+        spell_level >= 18
+    )
     spell_slots[5] = (spell_level >= 11) + (spell_level >= 19)
     spell_slots[6] = (spell_level >= 13) + (spell_level >= 20)
     spell_slots[8] = spell_level >= 15
@@ -55,7 +57,9 @@ def calc_pact_slots(class_levels):
     spell_slots = [0 for _ in range(5)]
     if spell_level > 0:
         pact_level = min((spell_level + 1) // 2, 5)
-        num_spell_slots = 1 + (spell_level >= 2) + (spell_level >= 11) + (spell_level >= 17)
+        num_spell_slots = (
+            1 + (spell_level >= 2) + (spell_level >= 11) + (spell_level >= 17)
+        )
         spell_slots[pact_level] = num_spell_slots
     return spell_slots
 
@@ -76,8 +80,15 @@ class CharacterProgression:
         self.binary_feats = defaultdict(lambda: 0)
 
     def calc_ac(self):
-        if self.armor in ["scalemail"]:
-            self.ac = 16
+        self.armor_type = armorsmith[self.armor]
+        self.armor_class = self.armor_type["armor_class"]
+        self.base_armor = self.armor_class["base"]
+        self.dex_mod_ac = self.armor_class["dex_mod"] * self.modifiers["dex"]
+        if self.armor_class["dex_mod_max"]:
+            self.dex_mod_ac = min(
+                self.armor_class["dex_mod_max"], self.modifiers["dex"]
+            )
+        self.ac = self.base_armor + self.dex_mod_ac
         if self.hasshield:
             self.ac += 2
 
