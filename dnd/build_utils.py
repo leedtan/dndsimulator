@@ -10,6 +10,17 @@ from armor import armor as armorsmith  # noqa
 from weapons import weapons as weaponsmith  # noqa
 
 
+def get_proficiency(level):
+    ((x-1)//4) + 2
+
+class CharacterModifier:
+    def __init__(self, fcn):
+        self.fcn = fcn
+
+    def apply(self, character):
+        self.fcn(character)
+
+
 class ASI:
     def __init__(self, stats):
         self.stats = stats
@@ -42,9 +53,7 @@ def calc_spell_slots(class_levels):
     spell_slots[1] = min((spell_level >= 3) * (spell_level - 1), 3)
     spell_slots[2] = min((spell_level >= 5) * (spell_level - 3), 3)
     spell_slots[3] = min((spell_level >= 7) * (spell_level - 6), 3)
-    spell_slots[4] = min((spell_level >= 9) * (spell_level - 8), 2) + (
-        spell_level >= 18
-    )
+    spell_slots[4] = min((spell_level >= 9) * (spell_level - 8), 2) + (spell_level >= 18)
     spell_slots[5] = (spell_level >= 11) + (spell_level >= 19)
     spell_slots[6] = (spell_level >= 13) + (spell_level >= 20)
     spell_slots[8] = spell_level >= 15
@@ -57,15 +66,13 @@ def calc_pact_slots(class_levels):
     spell_slots = [0 for _ in range(5)]
     if spell_level > 0:
         pact_level = min((spell_level + 1) // 2, 5)
-        num_spell_slots = (
-            1 + (spell_level >= 2) + (spell_level >= 11) + (spell_level >= 17)
-        )
+        num_spell_slots = 1 + (spell_level >= 2) + (spell_level >= 11) + (spell_level >= 17)
         spell_slots[pact_level] = num_spell_slots
     return spell_slots
 
 
 class CharacterProgression:
-    def __init__(self, starting_stats, classes, weapon, armor, feats, hasshield=False):
+    def __init__(self, starting_stats, classes, weapon, armor, meleevsrange, feats, hasshield=False):
         self.attacks = 1
         self.stats = self.starting_stats = starting_stats
         self.classes = classes
@@ -77,7 +84,9 @@ class CharacterProgression:
         self.attackmodifiers = []
         self.mirrorimages = []
         self.max_hps = 0
+        self.meleevsrange = meleevsrange
         self.binary_feats = defaultdict(lambda: 0)
+        self.attacks_use = []
 
     def calc_ac(self):
         self.armor_type = armorsmith[self.armor]
@@ -85,29 +94,42 @@ class CharacterProgression:
         self.base_armor = self.armor_class["base"]
         self.dex_mod_ac = self.armor_class["dex_mod"] * self.modifiers["dex"]
         if self.armor_class["dex_mod_max"]:
-            self.dex_mod_ac = min(
-                self.armor_class["dex_mod_max"], self.modifiers["dex"]
-            )
+            self.dex_mod_ac = min(self.armor_class["dex_mod_max"], self.modifiers["dex"])
         self.ac = self.base_armor + self.dex_mod_ac
         if self.hasshield:
             self.ac += 2
 
+    def calc_melee_attack(self):
+        self.weapon_type = weaponsmith[self.weapon]
+        self.weapon_properties = self.weapon_type["properties"]
+        self.range = 1 + ("reach" in self.weapon_properties)
+        self.pam = self.binary_feats["pam"] and (
+            self.weapon in ["glaive", "halberd", "quarterstaff", "spear"]
+        )
+        self.attacks_use += ["str"] + (["dex"] if "finesse" in self.weapon_properties else [])
+        self.attackbonus = 
+
     def sample_at_level(self, level):
+        self.character_level = level
         for lvl in range(level):
             self.apply_level(lvl)
         self.modifiers = calc_modifiers(self.stats)
+        self.proficiency = get_proficiency(level)
         self.max_hps += level * self.modifiers["con"]
         self.spell_slots = self.max_spell_slots = calc_spell_slots(self.class_levels)
         self.pact_slots = self.max_pact_slots = calc_pact_slots(self.class_levels)
-        self.ac = self.calc_ac()
+        self.calc_ac()
+        self.calc_melee_attack()
 
-    def apply_feats(self, feats):
+    def apply_feats(self):
         for feat in self.feats:
             if isinstance(feat, ASI):
                 for stat in feat.stats:
                     self.stats[stat] += 1
             elif feat == "pam":
                 self.binary_feats["pam"] == 1
+            elif isinstance(feat, CharacterModifier):
+                feat.apply(self)
             else:
                 raise ValueError(feat)
 
@@ -122,6 +144,7 @@ class CharacterProgression:
         self.levelup(clss, self.class_levels[clss])
 
     def levelup(self, clss, level):
+        self.attacks = 1
         if clss == "pal":
             self.max_hps += 6
             if level == 2:
@@ -133,3 +156,5 @@ class CharacterProgression:
 
         elif clss == "warlock":
             self.max_hps += 5
+
+    # def take_turn(self):

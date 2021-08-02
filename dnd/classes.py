@@ -1,12 +1,6 @@
+from attacks import Attack  # , MeleeAttack, MultiAttack, RangedAttack,
 from attacks import MeleeMultiAttack  # noqa
-from attacks import (
-    Attack,
-    Damage,
-    MeleeAttack,
-    MultiAttack,
-    RangedAttack,
-    RangedMultiAttack,
-)
+from attacks import Damage, RangedMultiAttack
 from character import Character
 from effects import BlastBack
 from spells import HealingWord, MagicMissile
@@ -150,17 +144,17 @@ warlock = Character(
     name="warlock",
     level=1,
 )
-hexadin8 = build_character(
-    starting_stats={"str": 16, "dex": 8, "con": 15, "int": 8, "wis": 8, "cha": 16},
-    classes=["pal"] * 6 + ["warlock"] * 2 + ["pal"] * 12,
-    abilities=["PAM"] + [None] * 2 + [ASI("cha", "cha")]
-    # starting_stats={
-    #     k: v
-    #     for k, v in zip(
-    #         ["str", "dex", "con", "int", "wis", "cha"], [16, 8, 15, 8, 8, 17]
-    #     )
-    # }
-)
+# hexadin8 = build_character(
+#     starting_stats={"str": 16, "dex": 8, "con": 15, "int": 8, "wis": 8, "cha": 16},
+#     classes=["pal"] * 6 + ["warlock"] * 2 + ["pal"] * 12,
+#     abilities=["PAM"] + [None] * 2 + [ASI("cha", "cha")]
+#     # starting_stats={
+#     #     k: v
+#     #     for k, v in zip(
+#     #         ["str", "dex", "con", "int", "wis", "cha"], [16, 8, 15, 8, 8, 17]
+#     #     )
+#     # }
+# )
 
 paladin8 = Character(
     hp=100,

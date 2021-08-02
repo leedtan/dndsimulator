@@ -3,7 +3,7 @@
 from attacks import MeleeMultiAttack  # noqa
 
 # from attacks import Attack, Damage, MeleeAttack, MultiAttack, RangedAttack, RangedMultiAttack
-from build_utils import CharacterProgression, Feat, Spell  # , ASI
+from build_utils import CharacterModifier, CharacterProgression, Feat, Spell  # , ASI
 
 # from character import Character
 # from effects import BlastBack
@@ -12,14 +12,24 @@ from build_utils import CharacterProgression, Feat, Spell  # , ASI
 # # from strategies import Character, Defender, PreserveLife
 # from strategies import PreserveLife
 
+
+def addchaattack(character):
+    character.attacks_use.append("cha")
+
+
 hexadin = CharacterProgression(
     starting_stats={"str": 16, "dex": 8, "con": 15, "int": 8, "wis": 8, "cha": 16},
     classes=["pal"] * 6 + ["warlock"] * 5 + ["pal"] * 12,
     weapon="glaive",
-    armor="scalemail",
+    armor="splint",
+    meleevsrange="meleepreferred",
     feats=[Feat(["pam"]), None, None, Feat(["cha", "cha"]), None, None]
     # Warlock
-    + [Feat([Spell("eb"), Spell("hex")]), Feat(["agonize"]), Feat(["pactblade", "pactweapon", Spell("mirrorimage")])]
+    + [
+        Feat([Spell("eb"), Spell("hex"), CharacterModifier(addchaattack)]),
+        Feat(["agonize"]),
+        Feat(["pactblade", "pactweapon", Spell("mirrorimage")]),
+    ]
     + [Feat(["warcaster"]), Feat([Spell("spiritshroud")])]
     # Paladin
     + [None, Feat(["resilientcon"])] + [None, None, None],
