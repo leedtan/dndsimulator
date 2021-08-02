@@ -144,7 +144,7 @@ warlock = Character(
     name="warlock",
     level=1,
 )
-# hexadin8 = build_character(
+# hexadin8 = build_characters(
 #     starting_stats={"str": 16, "dex": 8, "con": 15, "int": 8, "wis": 8, "cha": 16},
 #     classes=["pal"] * 6 + ["warlock"] * 2 + ["pal"] * 12,
 #     abilities=["PAM"] + [None] * 2 + [ASI("cha", "cha")]

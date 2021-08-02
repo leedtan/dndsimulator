@@ -33,6 +33,7 @@ hexadin = CharacterProgression(
     + [Feat(["warcaster"]), Feat([Spell("spiritshroud")])]
     # Paladin
     + [None, Feat(["resilientcon"])] + [None, None, None],
+    name="hexadin",
 )
 
 # starting_stats={

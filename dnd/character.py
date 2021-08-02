@@ -158,7 +158,10 @@ class Character:
                 a = 2
             i += 1
             closest_enemy = get_closest_enemy(enemies, self.coor)
-            atk_distance = max(abs(closest_enemy.coor[0] - self.coor[0]), abs(closest_enemy.coor[1] - self.coor[1]),)
+            atk_distance = max(
+                abs(closest_enemy.coor[0] - self.coor[0]),
+                abs(closest_enemy.coor[1] - self.coor[1]),
+            )
             if atk_distance <= self.reach:
                 stop_move = True
                 break
@@ -181,7 +184,9 @@ class Character:
                 breakpoint()
                 a = 2  # noqa
             closest_enemy = get_closest_enemy(enemies, self.coor)
-            atk_distance = max(abs(closest_enemy.coor[0] - self.coor[0]), abs(closest_enemy.coor[1] - self.coor[1]),)
+            atk_distance = max(
+                abs(closest_enemy.coor[0] - self.coor[0]), abs(closest_enemy.coor[1] - self.coor[1])
+            )
             if atk_distance <= self.reach:
                 stop_move = True
                 break
@@ -196,7 +201,10 @@ class Character:
             self.charge(move_remaining, enemies, table, state)
 
         closest_enemy = get_closest_enemy(enemies, self.coor)
-        atk_distance = max(abs(closest_enemy.coor[0] - self.coor[0]), abs(closest_enemy.coor[1] - self.coor[1]),)
+        atk_distance = max(
+            abs(closest_enemy.coor[0] - self.coor[0]),
+            abs(closest_enemy.coor[1] - self.coor[1]),
+        )
         if atk_distance <= self.reach:
             end_val = self.make_attack(self.attacks, atk_distance, closest_enemy, table, state, check_death)
             if end_val >= 0:
