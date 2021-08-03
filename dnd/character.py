@@ -2,10 +2,11 @@ import copy
 import math
 import random
 
-from attacks import MultiAttack
+from attacks import MultiAttack, RangedMultiAttack
 from dice import Dice
 from strategies import check_death, get_closest_enemy, get_order, move_path
-from utils import move_to_enemy
+from table_utils import viz_table  # noqa
+from utils import check_table, move_to_enemy  # noqa
 
 d20 = Dice(20)
 
@@ -37,7 +38,11 @@ class Character:
         reach=1,
         maxreach=None,  # noqa
         charge_forward=True,
+        color="",
+        *args,
+        **kwargs
     ):
+        self.color = color
         self.party = party
         self.imposes_disadv, self.has_adv = imposes_disadv, has_adv
         self._hp = hp
@@ -83,6 +88,7 @@ class Character:
         self.has_bonus = True
         self.has_obj_interract = True
         self.level = self.max_hit_dice = self.hit_dice = level
+        self.max_reach = max([atk.max_distance for atk in self.attacks])
         # if maxreach is None:
         #     if attacks[0].max_distance is not None:
         #         maxreach = attacks[0].max_distance
@@ -135,21 +141,29 @@ class Character:
         for atk in attacks:
             if atk.priority(atk_distance):
                 attack = atk
+                break
         for atk in attack.attacks:
+            disadvantage = closest_enemy.imposes_disadv
+            if atk_distance <= 1 and isinstance(attack, RangedMultiAttack):
+                disadvantage = 1
             atk.roll_hit(
                 enemy=closest_enemy,
                 advantage=self.has_adv,
-                disadvantage=closest_enemy.imposes_disadv,
+                disadvantage=disadvantage,
                 caster=self,
                 table=table,
             )
-            end_val = check_death(state)
+            end_val = check_death(state, table)
             if end_val >= 0:
                 return end_val
         return -1
 
-    def charge(self, move_remaining, enemies, table, state):
-
+    def charge(self, move_remaining, enemies, table, state, dbg=False):
+        # print(self)
+        # print(state["pcs"][0], state["pcs"][0].coor)
+        # print(state["npcs"][0], state["npcs"][0].coor)
+        if dbg:
+            breakpoint()
         stop_move = False
         i = 0
         while move_remaining > 0 and not stop_move:
@@ -191,21 +205,21 @@ class Character:
                 stop_move = True
                 break
 
-    def strategy(self, npcs, pcs, table, state):
+    def strategy(self, npcs, pcs, table, state, dbg=False):
         if self.party:
             enemies = npcs
         else:
             enemies = pcs
         move_remaining = self.movespeed
         if self.charge_forward:
-            self.charge(move_remaining, enemies, table, state)
+            self.charge(move_remaining, enemies, table, state, dbg=dbg)
 
         closest_enemy = get_closest_enemy(enemies, self.coor)
         atk_distance = max(
             abs(closest_enemy.coor[0] - self.coor[0]),
             abs(closest_enemy.coor[1] - self.coor[1]),
         )
-        if atk_distance <= self.reach:
+        if atk_distance <= self.max_reach:
             end_val = self.make_attack(self.attacks, atk_distance, closest_enemy, table, state, check_death)
             if end_val >= 0:
                 return end_val

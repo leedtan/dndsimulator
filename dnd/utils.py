@@ -22,6 +22,16 @@ def heuristic(char, enemy):
 #                 ) or next_loc == destination:
 #                     neighbors.append((coor[0] + i, coor[1] + j))
 #     return neighbors
+def check_table(state, table):
+    if len(state["pcs"] + state["npcs"]) != len([c for c in table.flatten() if c != 0]):
+        print([(c, c.hp) for c in table.flatten() if c != 0])
+        breakpoint()
+        blah = 3
+        return blah
+
+
+def get_chars(table):
+    return [(c, c.hp) for c in table.flatten() if c != 0]
 
 
 def get_neighbors(table, coor, destination, party):
@@ -53,7 +63,10 @@ def move_to_enemy(self, closest_enemy, table):
         i = i + 1
         current = frontier.get()
         # distance = abs(current[0] - closest_enemy.coor[0]) + abs(current[1] - closest_enemy.coor[1])
-        reach_distance = max(abs(current[0] - closest_enemy.coor[0]), abs(current[1] - closest_enemy.coor[1]),)
+        reach_distance = max(
+            abs(current[0] - closest_enemy.coor[0]),
+            abs(current[1] - closest_enemy.coor[1]),
+        )
         neighbors = get_neighbors(table, current, closest_enemy.coor, self.party)
 
         if reach_distance <= self.reach and (table[current] == 0 or table[current] == self):
@@ -67,4 +80,3 @@ def move_to_enemy(self, closest_enemy, table):
                 came_from[next_item] = current
 
     return current, came_from, cost_so_far
-

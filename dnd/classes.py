@@ -110,6 +110,7 @@ goblin = Character(
     stats={"dex": -1},
     name="goblin",
     level=1,
+    color=4,
 )
 umberhulk = Character(
     hp=93,
@@ -123,6 +124,7 @@ umberhulk = Character(
     imposes_disadv=True,
     has_adv=True,
     level=3,
+    color=5,
 )
 giant = Character(
     hp=300,
@@ -135,6 +137,7 @@ giant = Character(
     stats={"dex": -1},
     name="giant",
     level=3,
+    color=6,
 )
 warlock = Character(
     hp=11,
@@ -165,13 +168,13 @@ paladin8 = Character(
                 Attack(
                     to_hit=6,
                     damage=Damage(rolls=[10], flat_bonus=4),
-                    on_hit=[BlastBack(10)],
+                    on_hit=[BlastBack(2)],
                     max_distance=24,
                 ),
                 Attack(
                     to_hit=6,
                     damage=Damage(rolls=[10], flat_bonus=4),
-                    on_hit=[BlastBack(10)],
+                    on_hit=[BlastBack(2)],
                     max_distance=24,
                 ),
             ]
@@ -193,13 +196,13 @@ paladin8 = Character(
                 Attack(
                     to_hit=6,
                     damage=Damage(rolls=[10], flat_bonus=4),
-                    on_hit=[BlastBack(10)],
+                    on_hit=[BlastBack(2)],
                     max_distance=24,
                 ),
                 Attack(
                     to_hit=6,
                     damage=Damage(rolls=[10], flat_bonus=4),
-                    on_hit=[BlastBack(10)],
+                    on_hit=[BlastBack(2)],
                     max_distance=24,
                 ),
             ]

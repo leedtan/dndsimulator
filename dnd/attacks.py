@@ -1,6 +1,7 @@
 import random
 
 from dice import Dice
+from table_utils import viz_table
 
 d20 = Dice(20)
 
@@ -23,7 +24,8 @@ class AttackBase:
 
 
 class MultiAttack(AttackBase):
-    def __init__(self, attacks, max_distance=None, triple_adv=False, on_hit=[]):
+    def __init__(self, attacks, max_distance=None, triple_adv=False, on_hit=[], rank=0):
+        self.rank = rank
         self.used = 1
         if not isinstance(attacks, list):
             attacks = [attacks]
@@ -84,9 +86,14 @@ class Attack(AttackBase):
             hits = to_hit >= enemy.ac
             if hits:
                 enemy.hp -= self.damage.roll()
-        if hits:
+        if hits and enemy.hp > 0:
             for effect in self.on_hit:
                 effect.apply(enemy, caster, table)
+        # if hits:
+        #     print("hit ", enemy, " with ", self.on_hit)
+        # else:
+        #     print("miss ", enemy, " with ", self.on_hit)
+
         return hits
 
 

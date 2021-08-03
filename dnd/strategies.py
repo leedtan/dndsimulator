@@ -1,3 +1,6 @@
+from table_utils import viz_table  # noqa
+from utils import check_table  # noqa
+
 # from character import Character
 
 flag = 0
@@ -44,11 +47,14 @@ def check_react(char, enemy, last_loc, loc, table, state):
     if new_dist <= enemy.reach and last_dist >= enemy.reach and enemy.PAM and enemy.has_react:
         for pam_attack in enemy.PAM:
             # hit = pam_attack.roll_hit(
-            #     enemy=char, advantage=enemy.has_adv, disadvantage=char.imposes_disadv, caster=char, table=table,
+            #     enemy=char, advantage=enemy.has_adv,
+            #   disadvantage=char.imposes_disadv, caster=char, table=table,
             # )
             # hits += hit
 
             end_val = enemy.make_attack(enemy.PAM, new_dist, char, table, state, check_death)
+            if char.hp <= 0:
+                return PLAN_DEAD
             if end_val >= 0:
                 return end_val
         enemy.has_react = False
@@ -70,6 +76,7 @@ def move_path(table, order, char, enemies, move_remaining, state):
             table[last_loc] = 0
             char.coor = loc
             movement += 1
+            table[loc] = char
             for enemy in enemies:
                 reactions = check_react(char, enemy, last_loc, loc, table, state)
                 if reactions != 0:
@@ -101,9 +108,15 @@ def get_destination(closest_enemy, current, reverse_path):
 #         self.charge = True
 
 
-def check_death(state):
+def check_death(state, table):
     for char_group, return_val in [["pcs", 0], ["npcs", 1]]:
+        if char_group == "npcs":
+            dead = [c for c in state[char_group] if c.hp <= 0]
+            for dead_char in dead:
+                table[dead_char.coor] = 0
         alive = [c for c in state[char_group] if c.hp > 0]
+        if char_group == "npcs":
+            state[char_group] = alive
         if len(alive) == 0:
             return return_val
     return -1

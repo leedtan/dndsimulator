@@ -1,4 +1,5 @@
 from collections import defaultdict
+from functools import cmp_to_key
 
 from armor import armor as armorsmith  # noqa
 from attacks import Attack, Damage, MeleeMultiAttack, RangedMultiAttack  # noqa
@@ -66,7 +67,7 @@ def calc_pact_slots(class_levels):
     spell_level = class_levels["warlock"]
     spell_slots = [0 for _ in range(5)]
     if spell_level > 0:
-        pact_level = min((spell_level + 1) // 2, 5)
+        pact_level = min((spell_level + 1) // 2, 5) - 1
         num_spell_slots = 1 + (spell_level >= 2) + (spell_level >= 11) + (spell_level >= 17)
         spell_slots[pact_level] = num_spell_slots
     return spell_slots
@@ -84,23 +85,20 @@ class CharacterProgression:
         attacks_use=[],
         hasshield=False,
         name="",
+        color="",
+        *args,
+        **kwargs
     ):
-        self.attacks = 1
-        self.stats = self.starting_stats = starting_stats
+        self.meleevsrange = meleevsrange
+        self.attacks_use = attacks_use
+        self.color = color
+        self.starting_stats = starting_stats
         self.classes = classes
         self.weapon = weapon
         self.armor = armor
         self.feats = feats
         self.hasshield = hasshield
-        self.class_levels = defaultdict(lambda: 0)
-        self.attackmodifiers = []
-        self.mirrorimages = []
-        self.max_hps = 0
-        self.meleevsrange = meleevsrange
-        self.binary_feats = defaultdict(lambda: 0)
-        self.attacks_use = attacks_use
         self.name = name
-        self.spells = []
 
     def calc_ac(self):
         self.armor_type = armorsmith[self.armor]
@@ -129,7 +127,20 @@ class CharacterProgression:
         self.attackbonus = self.proficiency + self.damage_bonus
         self.damage = self.weapon_type["damage"]
 
+    def calc_attack_bonus(self, stat, modifier=0):
+        return self.modifiers[stat] + self.proficiency + modifier
+
     def sample_at_level(self, level, name=""):
+
+        self.attackmodifiers = []
+        self.mirrorimages = []
+        self.binary_feats = defaultdict(lambda: 0)
+        self.spells = []
+        self.class_levels = defaultdict(lambda: 0)
+        self.attacks = 1
+        self.max_hps = 0
+        self.stats = self.starting_stats
+
         name = self.name + name
         self.character_level = level
         for lvl in range(level):
@@ -141,21 +152,23 @@ class CharacterProgression:
         self.pact_slots = self.max_pact_slots = calc_pact_slots(self.class_levels)
         self.calc_ac()
         self.calc_melee_attack()
-        if level >= 5:
-
+        if "pam" in self.binary_feats:
+            on_hit = []
+            if "warcaster" in self.binary_feats and "repel" in self.binary_feats:
+                on_hit = on_hit + [BlastBack(2)]
             pam = [
                 RangedMultiAttack(
                     [
                         Attack(
                             to_hit=self.attackbonus,
                             damage=Damage(rolls=[10], flat_bonus=self.modifiers["cha"]),
-                            on_hit=[BlastBack(10)],
+                            on_hit=on_hit,
                             max_distance=24,
                         ),
                         Attack(
                             to_hit=self.attackbonus,
                             damage=Damage(rolls=[10], flat_bonus=self.modifiers["cha"]),
-                            on_hit=[BlastBack(10)],
+                            on_hit=on_hit,
                             max_distance=24,
                         ),
                     ]
@@ -163,19 +176,31 @@ class CharacterProgression:
             ]
         else:
             pam = False
-        return Character(
-            hp=self.max_hps,
-            ac=self.ac,
-            attacks=MeleeMultiAttack(
+        self.attack_spells = self.check_attack_spells(level)
+        attacks = [
+            MeleeMultiAttack(
                 [
                     Attack(
                         to_hit=self.attackbonus,
-                        damage=Damage(rolls=[self.damage], flat_bonus=self.damage_bonus),
+                        damage=Damage(rolls=self.damage, flat_bonus=self.damage_bonus),
                         max_distance=self.range,
                     )
                     for attack in range(self.attacks)
-                ]
-            ),
+                ],
+                rank=1,
+            )
+        ] + self.attack_spells
+
+        def compare(x, y):
+            return x.rank - y.rank
+
+        attacks = sorted(attacks, key=cmp_to_key(compare), reverse=True)
+        # dbg:
+        # pcs[0].attacks[0].attacks[0].damage.rolls
+        return Character(
+            hp=self.max_hps,
+            ac=self.ac,
+            attacks=attacks,
             stats=self.stats,
             name=name,
             level=level,
@@ -192,6 +217,7 @@ class CharacterProgression:
             reach=self.range,
             maxreach=self.range,
             charge_forward=False,
+            color=self.color,
         )
 
     def apply_feats(self, feats):
@@ -200,12 +226,12 @@ class CharacterProgression:
                 if isinstance(feat, ASI):
                     for stat in feat.stats:
                         self.stats[stat] += 1
-                elif feat == "pam":
-                    self.binary_feats["pam"] == 1
+                elif isinstance(feat, str):
+                    self.binary_feats[feat] == 1
                 elif isinstance(feat, CharacterModifier):
                     feat.apply(self)
                 elif isinstance(feat, Spell):
-                    self.spells.append(Spell)
+                    self.spells.append(feat)
                 else:
                     raise ValueError(feat)
 
@@ -218,6 +244,31 @@ class CharacterProgression:
             self.class_levels[clss] = 0
         self.class_levels[clss] += 1
         self.levelup(clss, self.class_levels[clss])
+
+    def check_attack_spells(self, lvl):
+        self.attack_spells = []
+        for spell in self.spells:
+            name = spell.spellname
+            if name in ["eb"]:
+                if name == "eb":
+                    self.attack_spells = [
+                        RangedMultiAttack(
+                            [
+                                Attack(
+                                    to_hit=self.calc_attack_bonus("cha"),
+                                    damage=Damage(
+                                        rolls=[10],
+                                        flat_bonus=("agonize" in self.binary_feats) * self.modifiers["cha"],
+                                    ),
+                                    max_distance=24,
+                                )
+                                for attack in range(get_cantrip_scaling(lvl))
+                            ],
+                            rank=("repel" in self.binary_feats) * 2,
+                            on_hit=[BlastBack(2)] if "repel" in self.binary_feats else [],
+                        )
+                    ]
+        return self.attack_spells
 
     def levelup(self, clss, level):
         self.attacks = 1
@@ -234,3 +285,7 @@ class CharacterProgression:
             self.max_hps += 5
 
     # def take_turn(self):
+
+
+def get_cantrip_scaling(lvl):
+    return (lvl > 0) + (lvl > 10) + (lvl > 16)
