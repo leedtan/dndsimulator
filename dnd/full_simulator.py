@@ -20,18 +20,15 @@ def gauntlet(party, level=3):
     party = [char.sample_at_level(level, name=str(i)) for i, char in enumerate(party)]
     for i, enemies in enumerate(
         [
-            [goblin] * 3,
-            [umberhulk] * 1,
-            [umberhulk] * 2,
-            [umberhulk] * 3,
+            # [goblin] * 3,
+            # [umberhulk] * 1,
+            # [umberhulk] * 2,
+            # [umberhulk] * 3,
             [giant] * 1,
+            # [giant] * 2,
             [giant] * 2,
             [giant] * 3,
             [giant] * 4,
-            [giant] * 5,
-            [giant] * 6,
-            [giant] * 7,
-            [giant] * 8,
         ]
     ):
         if ((i % 2) == 0) and (i > 0):
@@ -50,7 +47,7 @@ def gauntlet(party, level=3):
 def main():
     scores = pd.DataFrame()
     for lvl in range(11, 16):
-        dreamteam = [paladin, paladin, paladin]
+        dreamteam = [paladin]
         if 0:
             gauntlets = Parallel(n_jobs=5)(delayed(gauntlet)(dreamteam, lvl) for _ in range(10))
         else:
