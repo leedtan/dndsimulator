@@ -3,7 +3,8 @@
 from attacks import MeleeMultiAttack  # noqa
 
 # from attacks import Attack, Damage, MeleeAttack, MultiAttack, RangedAttack, RangedMultiAttack
-from build_utils import ASI, CharacterModifier, CharacterProgression, Feat, Spell  # , ASI
+from build_utils import CharacterProgression  # , ASI
+from build_utils import ASI, CharacterModifier, Feat, Spell
 
 # from character import Character
 # from effects import BlastBack
@@ -19,7 +20,7 @@ def addchaattack(character):
 
 hexadin = CharacterProgression(
     starting_stats={"str": 16, "dex": 8, "con": 15, "int": 8, "wis": 8, "cha": 16},
-    classes=["pal"] * 6 + ["warlock"] * 5 + ["pal"] * 12,
+    classes=["pal"] * 6 + ["warlock"] * 5 + ["pal"] * 9,
     weapon="glaive",
     armor="splint",
     meleevsrange="meleepreferred",
@@ -52,6 +53,53 @@ paladin = CharacterProgression(
     + [Feat(["warcaster"]), Feat([Spell("spiritshroud"), "repel"])]
     # Paladin
     + [None, Feat(["resilientcon"]), None, None, None],
+    name="paladin",
+    color=2,
+)
+hexadin5 = CharacterProgression(
+    starting_stats={"str": 16, "dex": 8, "con": 15, "int": 8, "wis": 8, "cha": 16},
+    classes=["pal"] * 6 + ["warlock"] * 5 + ["pal"] * 9,
+    weapon="glaive",
+    armor="splint",
+    meleevsrange="meleepreferred",
+    feats=[Feat(["pam"]), None, None, Feat([ASI(["cha", "cha"])]), None, None]
+    # Warlock
+    + [
+        Feat([Spell("eb"), Spell("hex"), CharacterModifier(addchaattack)]),
+        Feat(["agonize"]),
+        Feat(["pactblade", "pactweapon", Spell("mirrorimage")]),
+    ]
+    + [Feat(["warcaster"]), Feat([Spell("spiritshroud"), "repel"])]
+    # Paladin
+    + [None, Feat(["resilientcon"]), None, None, None],
+    name="paladin",
+    color=2,
+)
+
+paladin_pure = CharacterProgression(
+    starting_stats={"str": 16, "dex": 8, "con": 15, "int": 8, "wis": 8, "cha": 16},
+    classes=["pal"] * 20,
+    weapon="glaive",
+    armor="splint",
+    meleevsrange="meleepreferred",
+    feats=[
+        Feat(["pam"]),
+        None,
+        None,
+        Feat([ASI(["str", "str"])]),
+        None,
+        None,
+        None,
+        Feat([ASI(["str", "str"])]),
+        None,
+        None,
+        None,
+        Feat(["resilientcon"]),
+        None,
+        None,
+        None,
+        Feat([ASI(["cha", "cha"])]),
+    ],
     name="paladin",
     color=2,
 )

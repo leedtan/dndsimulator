@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from joblib import Parallel, delayed
 
-from built_characters import hexadin, paladin  # noqa
+from built_characters import hexadin, hexadin5, paladin, paladin_pure  # noqa
 from classes import giant, goblin, umberhulk
 from combat import combat
 
@@ -36,7 +36,9 @@ def gauntlet(party, level=3):
         if ((i % 6) == 0) and (i > 0):
             [char.longrest() for char in party]
 
-        result = combat(party, [copy.copy(char) for char in enemies], copy.copy(table), i)
+        result = combat(
+            party, [copy.copy(char) for char in enemies], copy.copy(table), i
+        )
         if not result:
             return stages_completed
         stages_completed += 1
@@ -44,12 +46,13 @@ def gauntlet(party, level=3):
     return stages_completed
 
 
-def main():
+def main(dreamteam=[paladin]):
     scores = pd.DataFrame()
     for lvl in range(11, 16):
-        dreamteam = [paladin]
         if 0:
-            gauntlets = Parallel(n_jobs=5)(delayed(gauntlet)(dreamteam, lvl) for _ in range(10))
+            gauntlets = Parallel(n_jobs=5)(
+                delayed(gauntlet)(dreamteam, lvl) for _ in range(10)
+            )
         else:
             gauntlets = [gauntlet(dreamteam, lvl) for _ in range(10)]
         print(gauntlets)

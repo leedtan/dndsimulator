@@ -136,7 +136,9 @@ class Character:
         self.hit_dice = self.hit_dice + math.ceil(self.max_hit_dice / 2)
         self.hit_dice = min(self.hit_dice, self.max_hit_dice)
 
-    def make_attack(self, attacks, atk_distance, closest_enemy, table, state, check_death):
+    def make_attack(
+        self, attacks, atk_distance, closest_enemy, table, state, check_death
+    ):
         attack = attacks[0]
         for atk in attacks:
             if atk.priority(atk_distance):
@@ -179,14 +181,18 @@ class Character:
             if atk_distance <= self.reach:
                 stop_move = True
                 break
-            final_destination, reverse_path, path_scores = move_to_enemy(self, closest_enemy, table)
+            final_destination, reverse_path, path_scores = move_to_enemy(
+                self, closest_enemy, table, move_remaining=move_remaining
+            )
             # print(i)
             if i > 4:
                 breakpoint()
                 print("wtf")
             current = final_destination
             order = get_order(current, reverse_path, self)
-            moves_used, enemy_moved_me = move_path(table, order, self, enemies, move_remaining, state)
+            moves_used, enemy_moved_me = move_path(
+                table, order, self, enemies, move_remaining, state
+            )
             if enemy_moved_me == PLAN_DEAD:
                 return
             table[self.coor] = self
@@ -199,7 +205,8 @@ class Character:
                 a = 2  # noqa
             closest_enemy = get_closest_enemy(enemies, self.coor)
             atk_distance = max(
-                abs(closest_enemy.coor[0] - self.coor[0]), abs(closest_enemy.coor[1] - self.coor[1])
+                abs(closest_enemy.coor[0] - self.coor[0]),
+                abs(closest_enemy.coor[1] - self.coor[1]),
             )
             if atk_distance <= self.reach:
                 stop_move = True
@@ -220,6 +227,8 @@ class Character:
             abs(closest_enemy.coor[1] - self.coor[1]),
         )
         if atk_distance <= self.max_reach:
-            end_val = self.make_attack(self.attacks, atk_distance, closest_enemy, table, state, check_death)
+            end_val = self.make_attack(
+                self.attacks, atk_distance, closest_enemy, table, state, check_death
+            )
             if end_val >= 0:
                 return end_val

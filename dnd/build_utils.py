@@ -55,7 +55,9 @@ def calc_spell_slots(class_levels):
     spell_slots[1] = min((spell_level >= 3) * (spell_level - 1), 3)
     spell_slots[2] = min((spell_level >= 5) * (spell_level - 3), 3)
     spell_slots[3] = min((spell_level >= 7) * (spell_level - 6), 3)
-    spell_slots[4] = min((spell_level >= 9) * (spell_level - 8), 2) + (spell_level >= 18)
+    spell_slots[4] = min((spell_level >= 9) * (spell_level - 8), 2) + (
+        spell_level >= 18
+    )
     spell_slots[5] = (spell_level >= 11) + (spell_level >= 19)
     spell_slots[6] = (spell_level >= 13) + (spell_level >= 20)
     spell_slots[7] = spell_level >= 15
@@ -68,7 +70,9 @@ def calc_pact_slots(class_levels):
     spell_slots = [0 for _ in range(5)]
     if spell_level > 0:
         pact_level = min((spell_level + 1) // 2, 5) - 1
-        num_spell_slots = 1 + (spell_level >= 2) + (spell_level >= 11) + (spell_level >= 17)
+        num_spell_slots = (
+            1 + (spell_level >= 2) + (spell_level >= 11) + (spell_level >= 17)
+        )
         spell_slots[pact_level] = num_spell_slots
     return spell_slots
 
@@ -122,7 +126,9 @@ class CharacterProgression:
             self.weapon in ["glaive", "halberd", "quarterstaff", "spear"]
         )
         if len(self.attacks_use) == 0:
-            self.attacks_use += ["str"] + (["dex"] if "finesse" in self.weapon_properties else [])
+            self.attacks_use += ["str"] + (
+                ["dex"] if "finesse" in self.weapon_properties else []
+            )
         self.damage_bonus = max([self.modifiers[stat] for stat in self.attacks_use])
         self.attackbonus = self.proficiency + self.damage_bonus
         self.damage = self.weapon_type["damage"]
@@ -206,7 +212,9 @@ class CharacterProgression:
             level=level,
             spells=self.spells,
             spell_slots=self.spell_slots,
-            spellcasting_modifier=max([self.modifiers[stat] for stat in ["wis", "int", "cha"]]),
+            spellcasting_modifier=max(
+                [self.modifiers[stat] for stat in ["wis", "int", "cha"]]
+            ),
             imposes_disadv=False,
             has_adv=False,
             resistance=None,
@@ -258,14 +266,17 @@ class CharacterProgression:
                                     to_hit=self.calc_attack_bonus("cha"),
                                     damage=Damage(
                                         rolls=[10],
-                                        flat_bonus=("agonize" in self.binary_feats) * self.modifiers["cha"],
+                                        flat_bonus=("agonize" in self.binary_feats)
+                                        * self.modifiers["cha"],
                                     ),
                                     max_distance=24,
                                 )
                                 for attack in range(get_cantrip_scaling(lvl))
                             ],
                             rank=("repel" in self.binary_feats) * 2,
-                            on_hit=[BlastBack(2)] if "repel" in self.binary_feats else [],
+                            on_hit=[BlastBack(2)]
+                            if "repel" in self.binary_feats
+                            else [],
                         )
                     ]
         return self.attack_spells

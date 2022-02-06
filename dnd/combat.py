@@ -43,9 +43,7 @@ def combat(pcs, npcs, table, i):
             # check_table(state, table)
             if 0:
                 print(
-                    char,
-                    state,
-                    get_chars(table),
+                    char, state, get_chars(table),
                 )
                 viz_table(table)
             if end_val >= 0:
